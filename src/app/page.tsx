@@ -1,65 +1,70 @@
-import Image from "next/image";
+import PromoBar from '@/components/PromoBar';
+import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import TrustBar from '@/components/TrustBar';
+import ProblemSolution from '@/components/ProblemSolution';
+import BenefitCards from '@/components/BenefitCards';
+import IngredientsSection from '@/components/IngredientsSection';
+import HowItWorks from '@/components/HowItWorks';
+import Reviews from '@/components/Reviews';
+import ComparisonTable from '@/components/ComparisonTable';
+import FAQ from '@/components/FAQ';
+import FinalCTA from '@/components/FinalCTA';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <PromoBar />
+      <Header />
+      <main>
+        <HeroSection />
+        <TrustBar />
+        <ProblemSolution />
+        <BenefitCards />
+        <IngredientsSection />
+        <HowItWorks />
+        <Reviews />
+        <ComparisonTable />
+        <FAQ />
+        <FinalCTA />
       </main>
-    </div>
+      <Footer />
+
+      {/* Mobile sticky cart bar */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(13,8,24,0.96)',
+        backdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(139,92,246,0.2)',
+        padding: '0.875rem 1.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '1rem',
+        zIndex: 100,
+      }} className="mobile-sticky">
+        <div>
+          <span style={{ color: '#f0eaff', fontWeight: 700, fontSize: '1rem' }}>399 kr</span>
+          <span style={{ color: '#a899c4', fontSize: '0.8rem', display: 'block' }}>1 burk · 60 gummies</span>
+        </div>
+        <a href="#shop" style={{ flex: 1, maxWidth: '220px' }}>
+          <button className="btn-primary" style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif' }}>
+            🌙 Köp nu
+          </button>
+        </a>
+      </div>
+
+      <style>{`
+        .mobile-sticky { display: none; }
+        @media (max-width: 768px) {
+          .mobile-sticky { display: flex !important; }
+          main { padding-bottom: 80px; }
+        }
+      `}</style>
+    </>
   );
 }
