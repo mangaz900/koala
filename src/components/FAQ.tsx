@@ -4,32 +4,28 @@ import { useState } from 'react';
 
 const faqs = [
   {
-    q: 'När ska jag ta dem?',
-    a: 'Ta 2 gummies 30–60 minuter före din normala läggdags. Ge kroppen tid att varva ner ordentligt.',
+    q: 'Kommer jag känna mig groggy nästa dag?',
+    a: 'Vår formula är skapad just för att undvika den där tunga, "bakfulla" känslan som många upplever av vanliga sömnprodukter. Du ska vakna och känna dig som dig själv.',
+  },
+  {
+    q: 'Kan den ge konstiga eller intensiva drömmar?',
+    a: 'Medan vissa standardgummies är kända för att ge märkliga drömmar på grund av onödigt höga doser av enstaka ingredienser, är Koala Ritual balanserad för att ge ett lugnt och mjukt stöd utan extremer.',
+  },
+  {
+    q: 'Passar den om mitt största problem är att jag inte kan stänga av tankarna?',
+    a: 'Ja, absolut. Den är byggd exakt för "trött i kroppen, klarvaken i huvudet"-känslan. Ingredienserna är utvalda för att hjälpa dig varva ner och bryta tankeströmmen på kvällen.',
+  },
+  {
+    q: 'Hjälper den bara att somna, eller också att komma till ro under natten?',
+    a: 'Medan första steget är att hjälpa dig somna in lättare, är formulan (Koala Calm System™) utformad för att ge ett jämnt stöd under hela nattens återhämtningsperiod för bättre helhetskvalitet.',
+  },
+  {
+    q: 'Vad gör den annorlunda än vanliga sömngummies?',
+    a: 'De flesta vanliga gummies slänger in stora mängder melatonin för att bara "knocka" dig. Vi fokuserar på roten till problemet — att hjälpa hjärnan varva ner och få en naturligare övergång till sömn, utan starka biverkningar.',
   },
   {
     q: 'Hur många gummies finns i en burk?',
-    a: 'En burk innehåller 60 gummies, vilket ger dig en månads supply vid rekommenderad dos på 2 per natt.',
-  },
-  {
-    q: 'Kan jag pausa eller avsluta prenumerationen när jag vill?',
-    a: 'Ja, absolut. Du hanterar din prenumeration helt enkelt via ditt konto och kan pausa eller avsluta utan bindningstid.',
-  },
-  {
-    q: 'Hur lång är leveranstiden?',
-    a: 'Vi skickar från Deutschland med snabb leverans. Normalt tar det 3–5 vardagar till Sverige.',
-  },
-  {
-    q: 'Hur smakar de?',
-    a: 'Gummierna har en mjuk, naturlig smak — inte överdrivet söt eller konstgjord. Tänk diskret bär med lite naturlig sötma.',
-  },
-  {
-    q: 'Är de gjorda för vuxna?',
-    a: 'Ja, Koala Ritual Sleep Gummies är specifikt formulerade för vuxna med verkliga sömnproblem — inte för barn.',
-  },
-  {
-    q: 'Är de sockerfria?',
-    a: 'Ja, våra gummies är sugar free. Vi vill inte att din kvällsrutin ska innehålla onödigt socker.',
+    a: 'En burk innehåller 60 gummies, vilket räcker till en hel månad (30 kvällar) vid den rekommenderade dosen på 2 stycken per natt.',
   },
 ];
 

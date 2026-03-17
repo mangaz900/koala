@@ -19,13 +19,13 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <TrustBar />
         <ProblemSolution />
+        <ComparisonTable />
+        <HowItWorks />
         <BenefitCards />
         <IngredientsSection />
-        <HowItWorks />
+        <TrustBar />
         <Reviews />
-        <ComparisonTable />
         <FAQ />
         <FinalCTA />
       </main>

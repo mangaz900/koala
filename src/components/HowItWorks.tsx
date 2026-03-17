@@ -5,20 +5,20 @@ import Image from 'next/image';
 const steps = [
   {
     num: '01',
-    title: 'Ta dina gummies',
-    text: 'Använd 2 gummies enligt rekommenderad dos 30–60 minuter före läggdags.',
+    title: 'Varva ner',
+    text: 'Ta 2 gummies 30–60 minuter före läggdags. Låt kvällen övergå i ett lugnare tempo.',
     img: '/images/steps.jpg',
   },
   {
     num: '02',
-    title: 'Varva ner',
-    text: 'Låt kvällen övergå i ett lugnare tempo. Släck skärmar, dämpa ljuset.',
+    title: 'Kom till ro',
+    text: 'Ingredienser som stöttar en mjukare övergång från dag till natt, när tankarna stannar av.',
     img: '/images/steps.jpg',
   },
   {
     num: '03',
-    title: 'Vakna mer återhämtad',
-    text: 'Stötta en bättre natt — så morgonen känns lättare och dagen mer energifylld.',
+    title: 'Vakna mer utvilad',
+    text: 'Stötta en bättre natt — så morgonen känns lättare och du slipper tung grogginess.',
     img: '/images/steps.jpg',
   },
 ];
@@ -34,7 +34,7 @@ export default function HowItWorks() {
           Så fungerar det
         </p>
         <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', color: '#f0eaff', textAlign: 'center', marginBottom: '0.75rem' }}>
-          En enkel kvällsrutin i tre steg
+          Så hjälper Koala Calm System™ dig komma till ro
         </h2>
         <p style={{ textAlign: 'center', color: '#a899c4', maxWidth: '500px', margin: '0 auto 3.5rem', fontSize: '1rem', lineHeight: 1.7 }}>
           Ingen komplicerad rutin. Bara ett enkelt, naturligt tillägg till din kväll.

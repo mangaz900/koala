@@ -16,13 +16,24 @@ export default function TrustBar() {
       borderBottom: '1px solid rgba(139,92,246,0.12)',
       padding: '2rem 1.5rem',
     }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(5,1fr)',
-        gap: '1rem',
-      }} className="trust-grid">
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <p style={{
+          textAlign: 'center',
+          color: '#c4b5fd',
+          fontSize: '1.25rem',
+          fontWeight: 600,
+          marginBottom: '2rem',
+          fontFamily: 'Playfair Display, serif',
+          fontStyle: 'italic',
+          lineHeight: 1.4,
+        }}>
+          "Byggd för kvällar när tankarna inte stänger av."
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(5,1fr)',
+          gap: '1rem',
+        }} className="trust-grid">
         {items.map((item) => (
           <div key={item.title} style={{
             display: 'flex',
@@ -41,6 +52,7 @@ export default function TrustBar() {
             </span>
           </div>
         ))}
+        </div>
       </div>
       <style>{`
         .trust-grid { grid-template-columns: repeat(5,1fr); }

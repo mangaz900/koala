@@ -40,9 +40,9 @@ export default function ProblemSolution() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[
-              'Vissa kvällar tar det evigheter att komma ner i varv.',
-              'Du är trött – men tankarna fortsätter snurra, kroppen slappnar inte av och sömnen känns långt borta.',
-              'Och även när du till slut somnar, vaknar du ibland utan att känna dig riktigt återhämtad.',
+              'Du vet känslan. Du är slut i kroppen — men så fort huvudet landar på kudden börjar tankarna gå.',
+              'Dagens stress. Morgondagens måsten. Timräkningen. Frustrationen.',
+              'Och till slut handlar kvällen inte bara om sömnbrist — utan om att du redan börjar oroa dig för hur du ska må imorgon.',
             ].map((text, i) => (
               <p key={i} style={{
                 color: '#a899c4',
@@ -70,7 +70,7 @@ export default function ProblemSolution() {
               margin: 0,
               fontStyle: 'italic',
             }}>
-              Koala Ritual Sleep Gummies är skapade för stunder som dessa — som ett enkelt, naturligt stöd för att göra kvällarna lugnare och nätterna mer återhämtande.
+              Koala Ritual Sleep Gummies är skapade just för dessa nätter. För att hjälpa hjärnan varva ner och kroppen att hitta ro — utan att du känner dig tung eller förstörd dagen efter.
             </p>
           </div>
         </div>

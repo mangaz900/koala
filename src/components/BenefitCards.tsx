@@ -3,24 +3,24 @@
 export default function BenefitCards() {
   const cards = [
     {
-      icon: '😴',
-      title: 'Somna lättare',
-      text: 'Hjälper dig att glida in i sömnen utan samma kvällskamp — mjukt och naturligt.',
+      icon: '🤫',
+      title: 'Tystare kvällar',
+      text: 'När tankarna fortsätter trots att kroppen är trött.',
     },
     {
-      icon: '🧠',
-      title: 'Lugna ett aktivt sinne',
-      text: 'Stöttar en lugnare övergång från dag till kväll, även när tankarna snurrar.',
-    },
-    {
-      icon: '🌊',
-      title: 'Djupare återhämtning',
-      text: 'Utformad för att stötta bättre sömnkvalitet och mer återhämtning under natten.',
+      icon: '🛁',
+      title: 'Mjukare insomning',
+      text: 'För kvällar när det är svårt att komma ner i varv.',
     },
     {
       icon: '☀️',
-      title: 'Vakna mer utvilad',
-      text: 'Det handlar inte bara om att sova — utan om hur du känner dig dagen efter.',
+      title: 'Bättre morgnar',
+      text: 'Utan tung eller seg känsla nästa dag.',
+    },
+    {
+      icon: '🌙',
+      title: 'En enklare rutin',
+      text: 'Mjuka gummies som känns lättare än ännu ett piller.',
     },
   ];
 
