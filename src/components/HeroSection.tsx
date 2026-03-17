@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useCart } from '@/context/CartContext';
+import ReviewsModal from './ReviewsModal';
 
 const IMAGES = [
   '/images/image1.jpg',
@@ -31,9 +33,21 @@ const PACKS: Pack[] = [
 const TABS = ['Detaljer', 'Ingredienser', 'FAQ'];
 const TAB_CONTENT: Record<string, string> = {
   'Detaljer':     'Koala Ritual Sleep Gummies är utvecklade för kvällar när kroppen är trött men hjärnan fortfarande går på högvarv. Med L-Theanine, Magnesium och Ashwagandha hjälper de dig varva ner, komma till ro lättare och vakna utan tung känsla nästa dag.',
-  'Ingredienser': 'L-Theanine 200 mg · Magnesium 150 mg · Ashwagandha 300 mg · Kamomillextrakt 150 mg · Melatonin 0,5 mg. Fri från socker, gluten och konstgjorda tillsatser.',
-  'FAQ':          'Ta 2 gummies 30 minuter innan läggdags. Formeln är icke-beroendeframkallande och kan avslutas när du vill.',
+  'Ingredienser': 'L-Theanine (200mg), Valerianarot (100mg), Kamomill (100mg), Ashwagandha (100mg), Magnesium (100mg), Passionsblomma (100mg), Glycin (100mg), Maltitol, Vatten, Hallonarom, Pektin, Citronsyra.\n\n**Innehåller inte:** Socker, Gluten, Gelatin, Soja, Mejeriprodukter, Nötter, Ägg, Konstgjorda sötningsmedel, färger eller aromer.',
 };
+
+const FAQ_ITEMS = [
+  { q: 'När tar man dem?', a: 'Ta 2 gummies cirka 30–60 minuter före läggdags som en del av din kvällsrutin.' },
+  { q: 'Passar den om mitt största problem är att jag inte kan stänga av tankarna?', a: 'Ja, den är utvecklad för kvällar när kroppen känns trött men huvudet fortfarande går på högvarv. Målet är inte att kännas “knockad”, utan att hjälpa dig varva ner och komma till ro lättare.' },
+  { q: 'Kommer jag känna mig groggy nästa dag?', a: 'Produkten är framtagen för en mjukare kvällsrutin och bättre morgonkänsla, inte för att lämna dig tung eller seg dagen efter. Samtidigt reagerar alla olika, så börja gärna enligt rekommenderad användning och se hur den känns för dig.' },
+  { q: 'Är det här bara ännu en vanlig sömngummy?', a: 'Nej — vår formula är byggd för ett mer specifikt problem: kvällar när tankarna inte stänger av. Många vanliga sömngummies säljer breda löften om bättre sömn, men vår positionering är tydligare: hjälpa dig varva ner, komma till ro och få en mjukare väg in i sömn.' },
+  { q: 'Hjälper den bara att somna, eller också att komma till ro?', a: 'Den är byggd för båda delarna: att hjälpa dig varva ner på kvällen och göra övergången till sömn mjukare.' },
+  { q: 'Kan den ge konstiga eller intensiva drömmar?', a: 'Sömnrutiner och kosttillskott kan upplevas olika från person till person. Därför är det alltid smart att börja enligt rekommenderad användning och känna efter hur din kropp reagerar.' },
+  { q: 'Är den beroendeframkallande?', a: 'Den är framtagen som en enkel kvällsrutin, inte som en tung “knockout”-lösning. Många kunder söker just ett alternativ som känns mildare och enklare än starkare sömnhjälpmedel.' },
+  { q: 'Passar den alla?', a: 'Rekommenderas för vuxna. Inte lämplig för gravida, ammande eller personer under 18 år. Konsultera läkare vid medicinering.' },
+  { q: 'Hur många gummies finns i en burk?', a: 'Varje burk innehåller 60 gummies, vilket motsvarar 30 portioner vid 2 gummies per kväll.' },
+  { q: 'Vad gör Koala Calm System™ annorlunda?', a: 'Koala Calm System™ är vår kvällsformula för lugnare sinne, mjukare insomning och bättre morgnar — särskilt för dig som känner dig trött i kroppen men klarvaken i huvudet.' },
+];
 
 const BENEFIT_ICONS = [
   { 
@@ -201,6 +215,7 @@ function ImageGallery() {
           height: 100%;
           object-fit: contain;
           display: block;
+          padding: 1rem;
         }
         .nav-row {
           display: flex;
@@ -249,22 +264,24 @@ function ImageGallery() {
 
         @media (max-width: 1024px) {
           .gallery-container {
-            flex-direction: column-reverse; /* Thumbnails below main image */
-            gap: 1.5rem;
+            flex-direction: column;
+            gap: 1rem;
           }
           .thumbnails {
-            flex-direction: row;
-            justify-content: center;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            -webkit-overflow-scrolling: touch;
-          }
-          .thumb-btn {
-            width: 72px;
-            height: 80px;
+            display: none; /* Hide thumbnails on tablet/mobile — use dots instead */
           }
           .main-img-wrapper {
-            padding-bottom: 100%; /* Back to square on mobile/tablet */
+            aspect-ratio: 1 / 1;
+          }
+        }
+        @media (max-width: 768px) {
+          .gallery-container {
+            gap: 0.75rem;
+          }
+          .nav-arrow {
+            width: 32px;
+            height: 32px;
+            font-size: 0.95rem;
           }
         }
       `}</style>
@@ -277,6 +294,11 @@ function PurchaseBox() {
   const [quantity, setQuantity]         = useState(1);
   const [activeTab, setActiveTab]       = useState('Detaljer');
   const [showBenefits, setShowBenefits] = useState(false);
+  const [activeFaq, setActiveFaq]       = useState<number | null>(null);
+  const [showFullIng, setShowFullIng]   = useState(false);
+  const [isReviewsOpen, setIsReviewsOpen] = useState(false);
+
+  const { addItem } = useCart();
 
   const pack = PACKS.find(p => p.id === selectedPack) || PACKS[0];
   const total = pack.price * quantity;
@@ -284,13 +306,20 @@ function PurchaseBox() {
   return (
     <div className="purchase-card">
       {/* Stars & Divider */}
-      <div className="review-row">
+      <div 
+        className="review-row" 
+        onClick={() => setIsReviewsOpen(true)}
+        style={{ cursor: 'pointer' }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Stars size={16} />
           <span className="review-count">(1 842 OMDÖMEN)</span>
+          <span style={{ fontSize: '0.75rem', color: '#8b5cf6', marginLeft: '2px' }}>↓</span>
         </div>
         <div className="card-divider" />
       </div>
+
+      <ReviewsModal isOpen={isReviewsOpen} onClose={() => setIsReviewsOpen(false)} />
 
       {/* Title */}
       <div className="title-section">
@@ -314,55 +343,177 @@ function PurchaseBox() {
       <div className="tabs-section">
         <div className="tabs-header">
           {TABS.map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab)} className={`tab-btn ${activeTab === tab ? 'active' : ''}`}>
+            <button key={tab} onClick={() => { setActiveTab(tab); setActiveFaq(null); }} className={`tab-btn ${activeTab === tab ? 'active' : ''}`}>
               {tab}
             </button>
           ))}
         </div>
-        <p className="tab-text">{TAB_CONTENT[activeTab]}</p>
-        
-        {/* Expandable Benefits List */}
-        {showBenefits && (
-          <ul style={{
-            listStyleType: 'none',
-            padding: 0,
-            margin: '0.75rem 0 1.25rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            color: '#130c24',
-            fontSize: '0.85rem',
-            lineHeight: 1.6,
-          }}>
-            <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-              <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-              <span>Hjälper dig varva ner när tankarna snurrar</span>
-            </li>
-            <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-              <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-              <span>Hjälper dig komma till ro och somna lättare</span>
-            </li>
-            <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-              <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-              <span>Vakna utan tung eller seg känsla nästa dag</span>
-            </li>
-            <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-              <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-              <span>Med L-Theanine, Magnesium och botaniska extrakt</span>
-            </li>
-          </ul>
-        )}
 
-        <button 
-          className="benefits-link"
-          onClick={() => setShowBenefits(!showBenefits)}
-          style={{ 
-            marginTop: showBenefits ? '0' : '0.75rem',
-            marginBottom: '0.5rem'
-          }}
-        >
-          {showBenefits ? 'Dölj fördelar -' : 'Se fördelar +'}
-        </button>
+        {activeTab === 'FAQ' ? (
+          <div style={{ marginTop: '1rem' }}>
+            {/* Scrollable pill questions */}
+            <div style={{
+              display: 'flex',
+              gap: '0.5rem',
+              overflowX: 'auto',
+              paddingBottom: '0.75rem',
+              scrollbarWidth: 'none',
+              WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+            }}>
+              {FAQ_ITEMS.map((item, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveFaq(activeFaq === i ? null : i)}
+                  style={{
+                    flexShrink: 0,
+                    padding: '0.45rem 1rem',
+                    borderRadius: '100px',
+                    border: activeFaq === i
+                      ? '1.5px solid #7c3aed'
+                      : '1.5px solid rgba(100,60,180,0.3)',
+                    background: activeFaq === i
+                      ? 'rgba(124,58,237,0.12)'
+                      : 'rgba(124,58,237,0.06)',
+                    color: activeFaq === i ? '#5b21b6' : '#4a3a72',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'Inter, sans-serif',
+                    letterSpacing: '0.01em',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {item.q}
+                </button>
+              ))}
+            </div>
+
+            {/* Answer panel */}
+            {activeFaq !== null && (
+              <div style={{
+                background: 'rgba(124,58,237,0.08)',
+                border: '1px solid rgba(124,58,237,0.2)',
+                borderRadius: '0.875rem',
+                padding: '1rem 1.1rem',
+                marginTop: '0.25rem',
+                position: 'relative',
+              }}>
+                <p style={{
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  color: '#5b21b6',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.4rem',
+                }}>
+                  {FAQ_ITEMS[activeFaq].q}
+                </p>
+                <p style={{
+                  color: '#130c24',
+                  fontSize: '0.875rem',
+                  lineHeight: 1.6,
+                  margin: 0,
+                }}>
+                  {FAQ_ITEMS[activeFaq].a}
+                </p>
+                <button
+                  onClick={() => setActiveFaq(null)}
+                  style={{
+                    position: 'absolute',
+                    top: '0.75rem',
+                    right: '0.875rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#7b6fa0',
+                    fontSize: '1rem',
+                    lineHeight: 1,
+                    padding: 0,
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div style={{ marginTop: '1rem' }}>
+            <p className="tab-text">
+              {activeTab === 'Ingredienser' && !showFullIng 
+                ? (TAB_CONTENT as Record<string, string>)[activeTab].slice(0, 130) + '...'
+                : (TAB_CONTENT as Record<string, string>)[activeTab]
+                    .split('**')
+                    .map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part)
+              }
+            </p>
+            
+            {activeTab === 'Ingredienser' && (TAB_CONTENT as Record<string, string>)[activeTab].length > 130 && (
+              <button 
+                onClick={() => setShowFullIng(!showFullIng)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#8b5cf6',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  padding: '0.25rem 0',
+                  textDecoration: 'underline'
+                }}
+              >
+                {showFullIng ? 'Visa mindre -' : 'Visa mer +'}
+              </button>
+            )}
+
+            {activeTab === 'Detaljer' && (
+              <>
+                {/* Expandable Benefits List */}
+                {showBenefits && (
+                  <ul style={{
+                    listStyleType: 'none',
+                    padding: 0,
+                    margin: '0.75rem 0 1.25rem 0',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.85rem',
+                    color: '#130c24',
+                    fontSize: '0.85rem',
+                    lineHeight: 1.6,
+                  }}>
+                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                      <span>Hjälper dig varva ner när tankarna snurrar</span>
+                    </li>
+                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                      <span>Hjälper dig komma till ro och somna lättare</span>
+                    </li>
+                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                      <span>Vakna utan tung eller seg känsla nästa dag</span>
+                    </li>
+                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                      <span>Med L-Theanine, Magnesium och botaniska extrakt</span>
+                    </li>
+                  </ul>
+                )}
+
+                <button
+                  className="benefits-link"
+                  onClick={() => setShowBenefits(!showBenefits)}
+                  style={{
+                    marginTop: showBenefits ? '0' : '0.75rem',
+                    marginBottom: '0.5rem'
+                  }}
+                >
+                  {showBenefits ? 'Dölj fördelar -' : 'Se fördelar +'}
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Pack selector */}
@@ -378,13 +529,15 @@ function PurchaseBox() {
         ))}
       </div>
 
-      {/* Purchase Option (One-time only) */}
-      <div className="purchase-option">
-        <div className="option-label-box">
-          <div className="radio-circle" />
-          <span className="option-name">Engångsköp</span>
-        </div>
-        <span className="option-price">{total} KR</span>
+      {/* Price Display */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        padding: '0.5rem 0.5rem 0',
+      }}>
+        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#6b5f8a', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pris:</span>
+        <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#130c24' }}>{total} KR</span>
       </div>
 
       {/* Quantity & CTA */}
@@ -397,16 +550,16 @@ function PurchaseBox() {
 
         <button 
           className="cta-button"
-          onMouseEnter={e => {
-            e.currentTarget.style.filter = 'brightness(1.05)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(91, 33, 182, 0.45)';
+          onClick={() => {
+            addItem({
+              id: pack.id,
+              name: 'Koala Ritual Sleep Gummies',
+              price: pack.price,
+              quantity: quantity,
+              image: pack.image,
+              label: pack.label
+            });
           }}
-          onMouseLeave={e => {
-            e.currentTarget.style.filter = 'none';
-            e.currentTarget.style.boxShadow = '0 4px 18px rgba(91, 33, 182, 0.32)';
-          }}
-          onMouseDown={e => e.currentTarget.style.transform = 'translateY(1.5px)'}
-          onMouseUp={e => e.currentTarget.style.transform = 'translateY(0)'}
         >
           {total} KR – LÄGG I VARUKORGEN
         </button>
@@ -419,7 +572,7 @@ function PurchaseBox() {
           flexDirection: 'column',
           gap: '0.35rem',
           fontSize: '0.82rem',
-          color: '#494060', // Adjusted to match light background
+          color: '#130c24', // Fixed syntax and darkened for contrast
           fontWeight: 600,
         }}>
           <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -457,19 +610,31 @@ function PurchaseBox() {
           gap: 1.5rem;
           position: sticky;
           top: 100px;
-          boxShadow: 0 4px 20px rgba(0,0,0,0.03);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.03);
           z-index: 10;
+          overflow: hidden;
+          width: 100%;
+          min-width: 0;
         }
         .review-row {
           display: flex;
           flex-direction: column;
           gap: 0.875rem;
+          cursor: pointer;
+          transition: opacity 0.2s;
+        }
+        .review-row:hover {
+          opacity: 0.7;
         }
         .review-count {
           font-size: 0.85rem;
           color: #130c24;
           font-weight: 800;
           letter-spacing: 0.04em;
+          transition: all 0.2s;
+        }
+        .review-row:hover .review-count {
+          text-decoration: underline;
         }
         .card-divider {
           height: 1.5px;
@@ -492,7 +657,7 @@ function PurchaseBox() {
         }
         .subtitle {
           font-size: 0.95rem;
-          color: #6b5f8a;
+          color: #130c24;
           font-weight: 500;
           margin: 0;
         }
@@ -510,7 +675,7 @@ function PurchaseBox() {
           cursor: pointer;
           font-size: 0.75rem;
           font-weight: 700;
-          color: #b0a8c9;
+          color: #6b5a8a;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin-bottom: -1px;
@@ -521,10 +686,11 @@ function PurchaseBox() {
           border-bottom-color: #130c24;
         }
         .tab-text {
-          font-size: 0.85rem;
-          color: #4a4168;
-          line-height: 1.6;
-          margin: 1rem 0 0 0;
+          font-size: 0.875rem;
+          color: #130c24;
+          line-height: 1.65;
+          margin: 0;
+          white-space: pre-wrap;
         }
         .benefits-link {
           background: none;
@@ -646,7 +812,7 @@ function PurchaseBox() {
           border: none;
           cursor: pointer;
           font-size: 1.4rem;
-          color: #7c6f9e;
+          color: #3d3356;
           transition: background 0.2s ease;
         }
         .qty-btn:hover {
@@ -694,16 +860,17 @@ function PurchaseBox() {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          border: 1.5px solid #d8d0ef;
+          border: 1.5px solid rgba(139, 92, 246, 0.25);
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 1.25rem;
           background: #fff;
+          color: #8b5cf6;
         }
         .icon-label {
           font-size: 0.58rem;
-          color: #8b7aae;
+          color: #130c24;
           text-align: center;
           font-weight: 700;
           line-height: 1.3;
@@ -716,27 +883,44 @@ function PurchaseBox() {
             top: 0;
             padding: 2rem 1.5rem;
             margin-top: 1rem;
+            border-radius: 1.5rem;
           }
           .product-title {
-            font-size: 2.25rem;
+            font-size: 2rem;
           }
         }
         @media (max-width: 480px) {
           .purchase-card {
-            padding: 1.75rem 1rem;
-            border-radius: 2rem;
+            padding: 1.5rem 1rem;
+            border-radius: 1.5rem;
+            gap: 1.25rem;
           }
           .product-title {
-            font-size: 1.85rem;
+            font-size: 1.75rem;
           }
           .pack-grid {
             gap: 0.5rem;
           }
           .pack-btn {
-            padding: 1rem 0.25rem 1.25rem;
+            padding: 0.75rem 0.25rem 1.25rem;
+            border-radius: 1.25rem;
+          }
+          .pack-img-box {
+            width: 36px;
+            height: 36px;
           }
           .icon-label {
             font-size: 0.5rem;
+          }
+          .tabs-header {
+            gap: 1rem;
+          }
+          .tab-btn {
+            font-size: 0.7rem;
+          }
+          .cta-button {
+            padding: 1rem 1.25rem;
+            font-size: 0.9rem;
           }
         }
       `}</style>
@@ -758,6 +942,7 @@ export default function HeroSection() {
         .hero-section {
           background: linear-gradient(175deg, #0f0820 0%, #1a0d35 100%);
           padding: 4rem 0 6rem;
+          overflow-x: hidden;
         }
         .hero-grid {
           display: grid;
@@ -777,14 +962,17 @@ export default function HeroSection() {
           }
           .hero-grid {
             grid-template-columns: 1fr;
-            gap: 2rem;
-            max-width: 720px;
+            gap: 1.5rem;
+            max-width: 100%;
             margin: 0 auto;
           }
         }
         @media (max-width: 768px) {
+          .hero-section {
+            padding: 1.5rem 0 5rem;
+          }
           .hero-grid {
-            max-width: 100%;
+            gap: 1rem;
           }
         }
       `}</style>

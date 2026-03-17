@@ -24,7 +24,6 @@ export default function Home() {
         <HowItWorks />
         <BenefitCards />
         <IngredientsSection />
-        <TrustBar />
         <Reviews />
         <FAQ />
         <FinalCTA />

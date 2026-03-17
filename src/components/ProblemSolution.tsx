@@ -38,6 +38,18 @@ export default function ProblemSolution() {
             När kroppen är trött men <em style={{ fontStyle: 'italic', color: '#c4b5fd' }}>hjärnan vägrar stänga av</em>
           </h2>
 
+          <div className="problem-img-container">
+            <img 
+              src="/images/koala sleep.jpg" 
+              alt="Koala ritual sleep" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[
               'Du vet känslan. Du är slut i kroppen — men så fort huvudet landar på kudden börjar tankarna gå.',
@@ -77,6 +89,34 @@ export default function ProblemSolution() {
 
       </div>
 
+      <style jsx>{`
+        .problem-img-container {
+          position: relative;
+          width: 100%;
+          height: 320px;
+          margin-bottom: 2rem;
+          border-radius: 1.5rem;
+          overflow: hidden;
+          border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+          section {
+            padding: 3rem 1.25rem !important;
+          }
+          .problem-img-container {
+            height: 240px;
+            margin-bottom: 1.5rem;
+            border-radius: 1.25rem;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .problem-img-container {
+            height: 200px;
+          }
+        }
+      `}</style>
 
     </section>
   );

@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useCart } from '@/context/CartContext';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartCount] = useState(0);
+  const { cartCount, setIsCartOpen } = useCart();
 
   return (
     <header
@@ -77,6 +78,7 @@ export default function Header() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {/* Cart */}
           <button
+            onClick={() => setIsCartOpen(true)}
             style={{
               background: 'none',
               border: 'none',

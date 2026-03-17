@@ -3,30 +3,16 @@
 import { useState } from 'react';
 
 const faqs = [
-  {
-    q: 'Kommer jag känna mig groggy nästa dag?',
-    a: 'Vår formula är skapad just för att undvika den där tunga, "bakfulla" känslan som många upplever av vanliga sömnprodukter. Du ska vakna och känna dig som dig själv.',
-  },
-  {
-    q: 'Kan den ge konstiga eller intensiva drömmar?',
-    a: 'Medan vissa standardgummies är kända för att ge märkliga drömmar på grund av onödigt höga doser av enstaka ingredienser, är Koala Ritual balanserad för att ge ett lugnt och mjukt stöd utan extremer.',
-  },
-  {
-    q: 'Passar den om mitt största problem är att jag inte kan stänga av tankarna?',
-    a: 'Ja, absolut. Den är byggd exakt för "trött i kroppen, klarvaken i huvudet"-känslan. Ingredienserna är utvalda för att hjälpa dig varva ner och bryta tankeströmmen på kvällen.',
-  },
-  {
-    q: 'Hjälper den bara att somna, eller också att komma till ro under natten?',
-    a: 'Medan första steget är att hjälpa dig somna in lättare, är formulan (Koala Calm System™) utformad för att ge ett jämnt stöd under hela nattens återhämtningsperiod för bättre helhetskvalitet.',
-  },
-  {
-    q: 'Vad gör den annorlunda än vanliga sömngummies?',
-    a: 'De flesta vanliga gummies slänger in stora mängder melatonin för att bara "knocka" dig. Vi fokuserar på roten till problemet — att hjälpa hjärnan varva ner och få en naturligare övergång till sömn, utan starka biverkningar.',
-  },
-  {
-    q: 'Hur många gummies finns i en burk?',
-    a: 'En burk innehåller 60 gummies, vilket räcker till en hel månad (30 kvällar) vid den rekommenderade dosen på 2 stycken per natt.',
-  },
+  { q: 'När tar man dem?', a: 'Ta 2 gummies cirka 30–60 minuter före läggdags som en del av din kvällsrutin.' },
+  { q: 'Passar den om mitt största problem är att jag inte kan stänga av tankarna?', a: 'Ja, den är utvecklad för kvällar när kroppen känns trött men huvudet fortfarande går på högvarv. Målet är inte att kännas “knockad”, utan att hjälpa dig varva ner och komma till ro lättare.' },
+  { q: 'Kommer jag känna mig groggy nästa dag?', a: 'Produkten är framtagen för en mjukare kvällsrutin och bättre morgonkänsla, inte för att lämna dig tung eller seg dagen efter. Samtidigt reagerar alla olika, så börja gärna enligt rekommenderad användning och se hur den känns för dig.' },
+  { q: 'Är det här bara ännu en vanlig sömngummy?', a: 'Nej — vår formula är byggd för ett mer specifikt problem: kvällar när tankarna inte stänger av. Många vanliga sömngummies säljer breda löften om bättre sömn, men vår positionering är tydligare: hjälpa dig varva ner, komma till ro och få en mjukare väg in i sömn.' },
+  { q: 'Hjälper den bara att somna, eller också att komma till ro?', a: 'Den är byggd för båda delarna: att hjälpa dig varva ner på kvällen och göra övergången till sömn mjukare.' },
+  { q: 'Kan den ge konstiga eller intensiva drömmar?', a: 'Sömnrutiner och kosttillskott kan upplevas olika från person till person. Därför är det alltid smart att börja enligt rekommenderad användning och känna efter hur din kropp reagerar.' },
+  { q: 'Är den beroendeframkallande?', a: 'Den är framtagen som en enkel kvällsrutin, inte som en tung “knockout”-lösning. Många kunder söker just ett alternativ som känns mildare och enklare än starkare sömnhjälpmedel.' },
+  { q: 'Passar den alla?', a: 'Rekommenderas för vuxna. Inte lämplig för gravida, ammande eller personer under 18 år. Konsultera läkare vid medicinering.' },
+  { q: 'Hur många gummies finns i en burk?', a: 'Varje burk innehåller 60 gummies, vilket motsvarar 30 portioner vid 2 gummies per kväll.' },
+  { q: 'Vad gör Koala Calm System™ annorlunda?', a: 'Koala Calm System™ är vår kvällsformula för lugnare sinne, mjukare insomning och bättre morgnar — särskilt för dig som känner dig trött i kroppen men klarvaken i huvudet.' },
 ];
 
 export default function FAQ() {

@@ -10,7 +10,7 @@ const rows: ComparisonRow[] = [
   { cons: 'Kan ge konstiga eller intensiva drömmar', pros: 'Hjälper dig varva ner på kvällen' },
   { cons: 'Funkar ibland, men inte alltid', pros: 'Mjukare väg in i sömn' },
   { cons: 'Hjälper ofta bara med insomning', pros: 'Bättre kvällsrutin i gummy-format' },
-  { cons: 'Samma generiska sömnformula', pros: 'Koala Calm System™' },
+  { cons: 'Samma generiska sömnformula', pros: 'Koala Calm System' },
 ];
 
 export default function ComparisonTable() {

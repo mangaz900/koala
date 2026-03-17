@@ -34,7 +34,7 @@ export default function HowItWorks() {
           Så fungerar det
         </p>
         <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', color: '#f0eaff', textAlign: 'center', marginBottom: '0.75rem' }}>
-          Så hjälper Koala Calm System™ dig komma till ro
+          Så hjälper Koala Calm System dig komma till ro
         </h2>
         <p style={{ textAlign: 'center', color: '#a899c4', maxWidth: '500px', margin: '0 auto 3.5rem', fontSize: '1rem', lineHeight: 1.7 }}>
           Ingen komplicerad rutin. Bara ett enkelt, naturligt tillägg till din kväll.

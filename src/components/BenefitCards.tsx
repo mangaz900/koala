@@ -1,108 +1,172 @@
 'use client';
 
-export default function BenefitCards() {
-  const cards = [
-    {
-      icon: '🤫',
-      title: 'Tystare kvällar',
-      text: 'När tankarna fortsätter trots att kroppen är trött.',
-    },
-    {
-      icon: '🛁',
-      title: 'Mjukare insomning',
-      text: 'För kvällar när det är svårt att komma ner i varv.',
-    },
-    {
-      icon: '☀️',
-      title: 'Bättre morgnar',
-      text: 'Utan tung eller seg känsla nästa dag.',
-    },
-    {
-      icon: '🌙',
-      title: 'En enklare rutin',
-      text: 'Mjuka gummies som känns lättare än ännu ett piller.',
-    },
-  ];
+import { useEffect, useRef, useState } from 'react';
 
+const items = [
+  {
+    title: 'Tystare kvällar',
+    text: 'När tankarna fortsätter trots att kroppen är trött.',
+    fill: 0.92,
+  },
+  {
+    title: 'Mjukare insomning',
+    text: 'För kvällar när det är svårt att komma ner i varv.',
+    fill: 0.88,
+  },
+  {
+    title: 'Bättre morgnar',
+    text: 'Utan tung eller seg känsla nästa dag.',
+    fill: 0.85,
+  },
+  {
+    title: 'En enklare rutin',
+    text: 'Mjuka gummies som känns lättare än ännu ett piller.',
+    fill: 0.95,
+  },
+];
+
+function BarItem({ title, text, fill, index }: { title: string; text: string; fill: number; index: number }) {
+  const [animated, setAnimated] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setAnimated(true), index * 120);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div ref={ref} className="bar-item">
+      <div className="bar-header">
+        <div>
+          <p className="bar-title">{title}</p>
+          <p className="bar-text">{text}</p>
+        </div>
+      </div>
+      <div className="bar-track">
+        <div
+          className="bar-fill"
+          style={{ width: animated ? `${fill * 100}%` : '0%' }}
+        />
+      </div>
+
+      <style jsx>{`
+        .bar-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          padding: 1.5rem 0;
+          border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+        .bar-item:last-child {
+          border-bottom: none;
+        }
+        .bar-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+        .bar-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.1rem;
+          color: #f0eaff;
+          font-weight: 600;
+          margin: 0 0 0.25rem 0;
+          line-height: 1.3;
+        }
+        .bar-text {
+          font-size: 0.875rem;
+          color: #7b6fa0;
+          margin: 0;
+          line-height: 1.5;
+        }
+        .bar-track {
+          width: 100%;
+          height: 6px;
+          background: rgba(139, 92, 246, 0.12);
+          border-radius: 100px;
+          overflow: hidden;
+        }
+        .bar-fill {
+          height: 100%;
+          border-radius: 100px;
+          background: linear-gradient(90deg, #7c3aed, #a78bfa);
+          transition: width 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+          box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default function BenefitCards() {
   return (
     <section style={{
       padding: '5rem 1.5rem',
       background: '#0d0818',
     }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <p style={{ textAlign: 'center', color: '#8b5cf6', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-          Fördelar
+      <div style={{ maxWidth: '760px', margin: '0 auto' }}>
+        <p style={{
+          textAlign: 'center',
+          color: '#8b5cf6',
+          fontSize: '0.8rem',
+          fontWeight: 700,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          marginBottom: '0.75rem',
+        }}>
+          Kundupplevelse
         </p>
-        <h2 className="section-heading" style={{ fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', marginBottom: '0.75rem', fontFamily: 'Playfair Display, serif', color: '#f0eaff', textAlign: 'center' }}>
-          Därför väljer så många att lägga till den i sin kvällsrutin
+        <h2 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
+          color: '#f0eaff',
+          textAlign: 'center',
+          marginBottom: '0.75rem',
+          lineHeight: 1.2,
+        }}>
+          Det kunderna uppskattar mest
         </h2>
-        <p style={{ textAlign: 'center', color: '#a899c4', maxWidth: '560px', margin: '0 auto 3rem', fontSize: '1rem', lineHeight: 1.7 }}>
-          Enkla, tydliga fördelar — för att du ska förstå exakt vad det här gör för dig.
+        <p style={{
+          textAlign: 'center',
+          color: '#a899c4',
+          maxWidth: '480px',
+          margin: '0 auto 3rem',
+          fontSize: '1rem',
+          lineHeight: 1.7,
+        }}>
+          Baserat på feedback från våra kunder — vad de märker av mest i vardagen.
         </p>
 
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '1.25rem',
-        }} className="benefit-grid">
-          {cards.map((card) => (
-            <div key={card.title} className="premium-card" style={{
-              background: '#1d1235',
-              border: '1px solid rgba(139,92,246,0.2)',
-              borderRadius: '1.25rem',
-              padding: '2rem 1.5rem',
-              transition: 'all 0.3s ease',
-              cursor: 'default',
-            }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.transform = 'translateY(-6px)';
-                el.style.borderColor = 'rgba(139,92,246,0.5)';
-                el.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(139,92,246,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.transform = 'translateY(0)';
-                el.style.borderColor = 'rgba(139,92,246,0.2)';
-                el.style.boxShadow = 'none';
-              }}
-            >
-              <div style={{
-                width: '52px',
-                height: '52px',
-                borderRadius: '14px',
-                background: 'rgba(139,92,246,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                marginBottom: '1.25rem',
-              }}>
-                {card.icon}
-              </div>
-              <h3 style={{
-                fontFamily: 'Playfair Display, serif',
-                fontSize: '1.15rem',
-                color: '#f0eaff',
-                marginBottom: '0.6rem',
-              }}>
-                {card.title}
-              </h3>
-              <p style={{ color: '#a899c4', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
-                {card.text}
-              </p>
-            </div>
+          background: '#1d1235',
+          border: '1px solid rgba(139, 92, 246, 0.18)',
+          borderRadius: '1.5rem',
+          padding: '0.5rem 2.5rem 1rem',
+        }} className="bars-card">
+          {items.map((item, i) => (
+            <BarItem key={item.title} {...item} index={i} />
           ))}
         </div>
       </div>
 
-      <style>{`
-        .benefit-grid { grid-template-columns: repeat(4,1fr); }
-        @media (max-width: 900px) {
-          .benefit-grid { grid-template-columns: repeat(2,1fr) !important; }
-        }
-        @media (max-width: 480px) {
-          .benefit-grid { grid-template-columns: 1fr !important; }
+      <style jsx>{`
+        @media (max-width: 768px) {
+          section {
+            padding: 3.5rem 1.25rem !important;
+          }
+          .bars-card {
+            padding: 0.5rem 1.25rem 1rem !important;
+          }
         }
       `}</style>
     </section>

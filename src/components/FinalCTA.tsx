@@ -61,15 +61,15 @@ export default function FinalCTA() {
           </button>
         </a>
 
-        {/* Supporting points */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-          {['🚚 Snabb leverans', '🔒 Säker checkout', '💎 Premiumkvalitet', '✅ 30 dagars garanti'].map((t) => (
-            <span key={t} style={{ color: '#a899c4', fontSize: '0.85rem', fontWeight: 500 }}>
-              {t}
-            </span>
-          ))}
-        </div>
       </div>
+
+      <style jsx>{`
+        @media (max-width: 768px) {
+          section {
+            padding: 4rem 1.25rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
