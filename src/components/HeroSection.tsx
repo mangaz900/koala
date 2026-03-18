@@ -309,7 +309,7 @@ function ImageGallery() {
             margin-right: -1.5rem;
             width: 100vw;
             background: #0d0818;
-            padding-bottom: 2rem;
+            padding-bottom: 3.5rem;
           }
           .desktop-main-img {
             display: none;
@@ -337,8 +337,8 @@ function ImageGallery() {
             border: none;
             border-radius: 0;
             width: 100%;
-            height: auto;
-            min-height: 380px;
+            height: 45vh;
+            min-height: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -347,7 +347,7 @@ function ImageGallery() {
             padding: 0;
             z-index: 2;
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: contain;
           }
           .flower-decor {
@@ -399,11 +399,16 @@ function ImageGallery() {
             flex-shrink: 0;
             border-radius: 12px;
             background: #fff;
-            border: 2px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 4px;
           }
           .thumb-btn.active {
             border-color: #8b5cf6;
-            background: rgba(139, 92, 246, 0.1);
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+          }
+          .thumb-btn img {
+            border-radius: 6px;
           }
         }
         @media (max-width: 768px) {
@@ -1014,10 +1019,11 @@ function PurchaseBox() {
             position: relative;
             top: 0;
             padding: 2rem 1.5rem;
-            margin: 1rem auto 0;
+            margin: -2.5rem auto 0;
             border-radius: 1.5rem;
             width: 94%;
             max-width: 500px;
+            z-index: 10;
           }
           .product-title {
             font-size: 2rem;
@@ -1092,7 +1098,7 @@ export default function HeroSection() {
         }
         @media (max-width: 1024px) {
           .hero-section {
-            padding: 2rem 0 4rem;
+            padding: 1rem 0 4rem;
           }
           .hero-grid {
             grid-template-columns: 1fr;
@@ -1103,7 +1109,7 @@ export default function HeroSection() {
         }
         @media (max-width: 768px) {
           .hero-section {
-            padding: 1.5rem 0 5rem;
+            padding: 0.5rem 0 5rem;
           }
           .hero-grid {
             gap: 1rem;
