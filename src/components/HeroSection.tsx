@@ -304,8 +304,12 @@ function ImageGallery() {
         @media (max-width: 1024px) {
           .gallery-container {
             flex-direction: column;
-            gap: 2.25rem;
-            align-items: center;
+            gap: 1rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            width: 100vw;
+            background: #0d0818;
+            padding-bottom: 2rem;
           }
           .desktop-main-img {
             display: none;
@@ -316,27 +320,35 @@ function ImageGallery() {
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
             width: 100vw;
-            margin-left: -1.5rem;
-            padding-left: 1.5rem;
-            padding-right: 2.5rem;
-            gap: 0.5rem;
+            margin-left: 0;
+            padding-left: 0;
+            padding-right: 0;
+            gap: 0;
           }
           .mobile-swipe-track::-webkit-scrollbar {
             display: none;
           }
           .swipe-slide {
-            flex: 0 0 96%;
+            flex: 0 0 100%;
             scroll-snap-align: start;
           }
           .main-img-wrapper {
             background: transparent;
             border: none;
             border-radius: 0;
-            aspect-ratio: 1 / 1;
+            width: 100%;
+            height: auto;
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
           .main-img {
             padding: 0;
             z-index: 2;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
           }
           .flower-decor {
             display: block;
@@ -362,11 +374,12 @@ function ImageGallery() {
             width: 100%;
           }
           .thumbnails {
-            width: 100vw;
-            margin-left: -1.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
             padding: 0 1.5rem;
             overflow: hidden;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             order: 2;
           }
           .thumbnails-scroll {
@@ -374,17 +387,17 @@ function ImageGallery() {
             flex-direction: row;
             overflow-x: auto;
             scrollbar-width: none;
-            gap: 1rem;
+            gap: 0.75rem;
             padding-right: 3rem;
           }
           .thumbnails-scroll::-webkit-scrollbar {
             display: none;
           }
           .thumb-btn {
-            width: 80px;
-            height: 80px;
+            width: 68px;
+            height: 68px;
             flex-shrink: 0;
-            border-radius: 14px;
+            border-radius: 12px;
             background: #fff;
             border: 2px solid transparent;
           }
