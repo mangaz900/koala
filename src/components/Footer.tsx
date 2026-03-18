@@ -16,11 +16,12 @@ export default function Footer() {
         }} className="footer-grid">
           {/* Brand */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <span style={{ fontSize: '1.5rem' }}>🐨</span>
-              <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.2rem', fontWeight: 700, color: '#f0eaff' }}>
-                Koala Ritual
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+              <img 
+                src="/images/logo-koala.svg" 
+                alt="Koala Ritual" 
+                style={{ height: '32px', width: 'auto' }} 
+              />
             </div>
             <p style={{ color: '#6b5f8a', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: '260px' }}>
               Premiumsömnstöd för vuxna som tar sin sömn och återhämtning på allvar.

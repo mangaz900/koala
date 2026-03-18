@@ -20,9 +20,7 @@ export default function CartDrawer() {
 
   if (!isCartOpen && !isAnimating) return null;
 
-  const freeShippingThreshold = 299;
-  const progress = Math.min((cartTotal / freeShippingThreshold) * 100, 100);
-  const remainingForFreeShipping = freeShippingThreshold - cartTotal;
+  if (!isCartOpen && !isAnimating) return null;
 
   return (
     <div className={`drawer-overlay ${isCartOpen ? 'open' : ''}`} onClick={() => setIsCartOpen(false)}>
@@ -36,16 +34,9 @@ export default function CartDrawer() {
           <button className="close-btn" onClick={() => setIsCartOpen(false)}>✕</button>
         </div>
 
-        {/* Progress Bar */}
-        <div className="shipping-progress">
-          <div className="progress-text">
-            {cartTotal >= freeShippingThreshold 
-              ? <><span className="check-icon">✓</span> GRATIS FRAKT UPPLÅST!</>
-              : <>Du är endast <strong>{remainingForFreeShipping} kr</strong> ifrån <strong>GRATIS FRAKT</strong></>}
-          </div>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
+        {/* Shipping Banner */}
+        <div className="shipping-banner">
+          <span className="check-icon">✓</span> GRATIS FRAKT UPPLÅST!
         </div>
 
         {/* Cart Items */}
@@ -80,20 +71,6 @@ export default function CartDrawer() {
                 </div>
               ))}
 
-              {/* Upsell section (Premium look) */}
-              <div className="upsell-section">
-                <h4 className="upsell-title">Missa inte...</h4>
-                <div className="upsell-card">
-                  <div className="upsell-img">
-                    <img src="/1 burk.webp" alt="Koala Morning" />
-                  </div>
-                  <div className="upsell-info">
-                    <p className="upsell-name">Koala Morning Ritual</p>
-                    <p className="upsell-price">299 kr</p>
-                  </div>
-                  <button className="upsell-add-btn">LÄGG TILL</button>
-                </div>
-              </div>
             </div>
           )}
         </div>
@@ -106,7 +83,6 @@ export default function CartDrawer() {
               <span>{cartTotal} kr</span>
             </div>
             <button className="checkout-btn">GÅ TILL KASSAN</button>
-            <p className="footer-note">Skatter och frakt beräknas i kassan.</p>
           </div>
         )}
       </div>
@@ -179,23 +155,19 @@ export default function CartDrawer() {
           color: #130c24;
         }
 
-        .shipping-progress {
-          padding: 1.25rem 1.5rem;
+        .shipping-banner {
+          padding: 1.125rem 1.5rem;
           background: #7c3aed;
           color: #fff;
-          border-bottom: 4px solid #F6F2FA;
-        }
-        .progress-text {
-          font-size: 0.95rem;
-          font-weight: 600;
           text-align: center;
-          margin-bottom: 0.75rem;
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
-        }
-        .progress-text strong {
+          font-size: 0.95rem;
           font-weight: 800;
-          color: #fff;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
         }
         .check-icon {
           background: #fff;
@@ -207,21 +179,6 @@ export default function CartDrawer() {
           justify-content: center;
           border-radius: 50%;
           font-size: 0.75rem;
-          margin-right: 0.5rem;
-          vertical-align: middle;
-        }
-        .progress-track {
-          height: 10px;
-          background: rgba(255,255,255,0.15);
-          border-radius: 100px;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.1);
-        }
-        .progress-fill {
-          height: 100%;
-          background: #fff;
-          transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 0 10px rgba(255,255,255,0.4);
         }
 
         .cart-items-container {
@@ -310,12 +267,17 @@ export default function CartDrawer() {
           border: none;
           background: none;
           cursor: pointer;
-          font-size: 1rem;
+          font-size: 1.1rem;
+          color: #130c24;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .qty-controls span {
           padding: 0 0.75rem;
           font-weight: 700;
-          font-size: 0.85rem;
+          font-size: 0.9rem;
+          color: #130c24;
         }
         .item-price {
           font-weight: 800;
@@ -370,6 +332,7 @@ export default function CartDrawer() {
           font-weight: 800;
           font-size: 1.1rem;
           margin-bottom: 1.25rem;
+          color: #130c24;
         }
         .checkout-btn {
           width: 100%;

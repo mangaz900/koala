@@ -79,6 +79,12 @@ p {
   padding: 0 var(--section-px);
 }
 
+@media (min-width: 1024px) {
+  .section-container {
+    max-width: 1350px;
+  }
+}
+
 .section-py {
   padding-top: var(--section-py);
   padding-bottom: var(--section-py);

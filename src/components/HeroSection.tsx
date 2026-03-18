@@ -114,71 +114,148 @@ function Stars({ count = 5, size = 14 }: { count?: number; size?: number }) {
 
 function ImageGallery() {
   const [active, setActive] = useState(0);
-  const prev = () => setActive(i => (i - 1 + IMAGES.length) % IMAGES.length);
-  const next = () => setActive(i => (i + 1) % IMAGES.length);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll thumbnails when active index changes
+  useEffect(() => {
+    if (thumbRef.current && thumbRef.current.children.length > active) {
+      const thumbTrack = thumbRef.current;
+      const targetThumb = thumbTrack.children[active] as HTMLElement;
+      
+      const isMobile = window.innerWidth <= 1024;
+      
+      if (isMobile) {
+        const scrollLeft = targetThumb.offsetLeft - (thumbTrack.offsetWidth / 2) + (targetThumb.offsetWidth / 2);
+        thumbTrack.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth'
+        });
+      } else {
+        const scrollTop = targetThumb.offsetTop - (thumbTrack.offsetHeight / 2) + (targetThumb.offsetHeight / 2);
+        thumbTrack.scrollTo({
+          top: scrollTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [active]);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const children = scrollRef.current.children;
+    if (children.length < 2) return;
+
+    // Dynamically calculate stride from DOM to avoid rounding/gap issues
+    const stride = (children[1] as HTMLElement).offsetLeft - (children[0] as HTMLElement).offsetLeft;
+    const newActive = Math.round(scrollLeft / stride);
+
+    if (newActive !== active && newActive >= 0 && newActive < IMAGES.length) {
+      setActive(newActive);
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    setActive(index);
+    if (scrollRef.current && scrollRef.current.children.length > index) {
+      const children = scrollRef.current.children;
+      const stride = (children.length > 1) 
+        ? (children[1] as HTMLElement).offsetLeft - (children[0] as HTMLElement).offsetLeft
+        : 0;
+        
+      scrollRef.current.scrollTo({
+        left: index * stride,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <div className="gallery-container">
-      {/* Thumbnails */}
+      {/* Thumbnails (Desktop: Left, Mobile: Bottom/Row) */}
       <div className="thumbnails">
-        {IMAGES.map((src, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className={`thumb-btn ${active === i ? 'active' : ''}`}
-          >
-            <img src={src} alt="" />
-          </button>
-        ))}
+        <div className="thumbnails-scroll" ref={thumbRef}>
+          {IMAGES.map((src, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIndex(i)}
+              className={`thumb-btn ${active === i ? 'active' : ''}`}
+            >
+              <img src={src} alt="" />
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Main Image */}
+      {/* Main Display */}
       <div className="main-display">
-        <div className="main-img-wrapper">
-          <img
-            src={IMAGES[active]}
-            alt="Koala Ritual Sleep Gummies"
-            className="main-img"
-          />
+        {/* Mobile Swipe Display */}
+        <div 
+          className="mobile-swipe-track" 
+          ref={scrollRef}
+          onScroll={handleScroll}
+        >
+          {IMAGES.map((src, i) => (
+            <div key={i} className="swipe-slide">
+              <div className="main-img-wrapper">
+                <div className="flower-decor" />
+                <img
+                  src={src}
+                  alt={`Koala Ritual Sleep Gummies ${i + 1}`}
+                  className="main-img"
+                />
+              </div>
+            </div>
+          ))}
         </div>
-
-        {/* Navigation below image */}
-        <div className="nav-row">
-          <button onClick={prev} className="nav-arrow">←</button>
-          <div className="dots">
-            {IMAGES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`dot ${active === i ? 'active' : ''}`}
-              />
-            ))}
+        
+        {/* Desktop Single Image Display */}
+        <div className="desktop-main-img">
+          <div className="main-img-wrapper">
+             <img
+              src={IMAGES[active]}
+              alt="Koala Ritual Sleep Gummies"
+              className="main-img"
+            />
           </div>
-          <button onClick={next} className="nav-arrow">→</button>
         </div>
       </div>
 
       <style jsx>{`
         .gallery-container {
           display: flex;
-          gap: 1.25rem;
+          gap: 1rem;
           width: 100%;
         }
         .thumbnails {
           display: flex;
           flex-direction: column;
-          gap: 0.625rem;
           flex-shrink: 0;
+          width: 70px;
+          order: 1;
+        }
+        .thumbnails-scroll {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          max-height: 500px;
+          overflow-y: auto;
+          scrollbar-width: none;
+          padding: 2px;
+        }
+        .thumbnails-scroll::-webkit-scrollbar {
+          display: none;
         }
         .thumb-btn {
           width: 60px;
           height: 60px;
           border-radius: 10px;
           overflow: hidden;
-          border: 2px solid rgba(255, 255, 255, 0.1);
+          border: 2px solid rgba(0, 0, 0, 0.05);
           padding: 0;
           cursor: pointer;
-          background: rgba(255, 255, 255, 0.04);
+          background: #fff;
           transition: all 0.2s ease;
         }
         .thumb-btn.active {
@@ -197,6 +274,10 @@ function ImageGallery() {
           flex-direction: column;
           gap: 1.25rem;
           min-width: 0;
+          order: 2;
+        }
+        .mobile-swipe-track {
+          display: none;
         }
         .main-img-wrapper {
           position: relative;
@@ -204,10 +285,9 @@ function ImageGallery() {
           aspect-ratio: 1 / 1;
           border-radius: 2rem;
           overflow: hidden;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.15);
         }
-
         .main-img {
           position: absolute;
           inset: 0;
@@ -215,63 +295,102 @@ function ImageGallery() {
           height: 100%;
           object-fit: contain;
           display: block;
-          padding: 1rem;
-        }
-        .nav-row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 1.5rem;
-        }
-        .nav-arrow {
-          background: none;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 50%;
-          width: 38px;
-          height: 38px;
-          cursor: pointer;
-          color: #c4b5fd;
-          font-size: 1.1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s ease;
-        }
-        .nav-arrow:hover {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: rgba(255, 255, 255, 0.4);
-        }
-        .dots {
-          display: flex;
-          gap: 8px;
-          align-items: center;
-        }
-        .dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          border: none;
-          cursor: pointer;
           padding: 0;
-          transition: all 0.2s ease;
         }
-        .dot.active {
-          width: 24px;
-          border-radius: 100px;
-          background: #c4b5fd;
+        .flower-decor {
+          display: none;
         }
 
         @media (max-width: 1024px) {
           .gallery-container {
             flex-direction: column;
-            gap: 1rem;
+            gap: 2.25rem;
+            align-items: center;
           }
-          .thumbnails {
-            display: none; /* Hide thumbnails on tablet/mobile — use dots instead */
+          .desktop-main-img {
+            display: none;
+          }
+          .mobile-swipe-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            width: 100vw;
+            margin-left: -1.5rem;
+            padding-left: 1.5rem;
+            padding-right: 2.5rem;
+            gap: 0.5rem;
+          }
+          .mobile-swipe-track::-webkit-scrollbar {
+            display: none;
+          }
+          .swipe-slide {
+            flex: 0 0 96%;
+            scroll-snap-align: start;
           }
           .main-img-wrapper {
+            background: transparent;
+            border: none;
+            border-radius: 0;
             aspect-ratio: 1 / 1;
+          }
+          .main-img {
+            padding: 0;
+            z-index: 2;
+          }
+          .flower-decor {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: rgba(139, 92, 246, 0.05);
+            z-index: 1;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M100 0C125 0 145 20 145 45C145 55 141 64 135 71C145 65 157 61 170 61C187 61 200 74 200 91C200 108 187 121 170 121C157 121 145 117 135 110C141 117 145 127 145 137C145 162 125 182 100 182C75 182 55 162 55 137C55 127 59 117 65 110C55 117 43 121 30 121C13 121 0 108 0 91C0 74 13 61 30 61C43 61 55 65 65 71C59 64 55 55 55 45C55 20 75 0 100 0Z' transform='translate(0 9)'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M100 0C125 0 145 20 145 45C145 55 141 64 135 71C145 65 157 61 170 61C187 61 200 74 200 91C200 108 187 121 170 121C157 121 145 117 135 110C141 117 145 127 145 137C145 162 125 182 100 182C75 182 55 162 55 137C55 127 59 117 65 110C55 117 43 121 30 121C13 121 0 108 0 91C0 74 13 61 30 61C43 61 55 65 65 71C59 64 55 55 55 45C55 20 75 0 100 0Z' transform='translate(0 9)'/%3E%3C/svg%3E");
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+          }
+          .main-display {
+            order: 1;
+            width: 100%;
+          }
+          .thumbnails {
+            width: 100vw;
+            margin-left: -1.5rem;
+            padding: 0 1.5rem;
+            overflow: hidden;
+            margin-top: 1rem;
+            order: 2;
+          }
+          .thumbnails-scroll {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            scrollbar-width: none;
+            gap: 1rem;
+            padding-right: 3rem;
+          }
+          .thumbnails-scroll::-webkit-scrollbar {
+            display: none;
+          }
+          .thumb-btn {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px solid transparent;
+          }
+          .thumb-btn.active {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
           }
         }
         @media (max-width: 768px) {
@@ -601,7 +720,7 @@ function PurchaseBox() {
 
       <style jsx>{`
         .purchase-card {
-          background: #F6F2FA;
+          background: #ffffff;
           border-radius: 2.5rem;
           border: 1.5px solid #130c24;
           padding: 2.5rem 2.25rem;
@@ -882,8 +1001,10 @@ function PurchaseBox() {
             position: relative;
             top: 0;
             padding: 2rem 1.5rem;
-            margin-top: 1rem;
+            margin: 1rem auto 0;
             border-radius: 1.5rem;
+            width: 94%;
+            max-width: 500px;
           }
           .product-title {
             font-size: 2rem;
@@ -946,8 +1067,8 @@ export default function HeroSection() {
         }
         .hero-grid {
           display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          gap: 4rem;
+          grid-template-columns: 1.5fr 1fr;
+          gap: 3.5rem;
           align-items: start;
         }
 
