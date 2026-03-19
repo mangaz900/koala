@@ -414,11 +414,14 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
           cursor: pointer;
           letter-spacing: 0.05em;
           transition: all 0.2s ease;
+          -webkit-tap-highlight-color: transparent;
         }
-        .cta-btn:hover {
-          background: #3b0764;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(19, 12, 36, 0.2);
+        @media (hover: hover) {
+          .cta-btn:hover {
+            background: #3b0764;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(19, 12, 36, 0.2);
+          }
         }
 
         .reviews-scroll-area::-webkit-scrollbar {
@@ -434,19 +437,20 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
 
         @media (max-width: 768px) {
           .modal-content {
-            width: 90vw;
-            max-width: 400px;
-            max-height: 80vh;
-            border-radius: 1.5rem;
+            width: 100vw;
+            max-width: 100%;
+            max-height: 85dvh;
+            border-radius: 1.5rem 1.5rem 0 0;
             position: relative;
-            margin: auto;
+            margin: 0;
+            margin-top: auto;
           }
           .modal-header {
-            padding: 3rem 3.5rem 1.25rem 1.75rem;
+            padding: 1.75rem 3.5rem 1.25rem 1.5rem;
           }
           .close-btn {
             position: absolute;
-            top: 2.5rem;
+            top: 1.5rem;
             right: 1.25rem;
             width: 36px;
             height: 36px;
@@ -463,12 +467,12 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
             padding: 1.5rem;
           }
           .modal-overlay {
-            padding: 1.5rem;
-            align-items: flex-start;
-            overflow-y: auto;
+            padding: 0;
+            align-items: flex-end;
+            overflow-y: hidden;
           }
           .modal-footer {
-            padding: 1.25rem 1.5rem;
+            padding: 1.25rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom));
           }
         }
       `}</style>
