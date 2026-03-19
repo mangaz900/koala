@@ -248,7 +248,10 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
         </div>
 
         <div className="modal-footer">
-          <button className="cta-btn" onClick={onClose}>FORTSÄTT HANDLA</button>
+          <button className="cta-btn" onClick={() => {
+            onClose();
+            document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+          }}>KÖP NU</button>
         </div>
       </div>
 
@@ -422,33 +425,50 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
           width: 6px;
         }
         .reviews-scroll-area::-webkit-scrollbar-track {
-          background: transparent;
+          background: #fbfaff;
         }
         .reviews-scroll-area::-webkit-scrollbar-thumb {
           background: #e2d9f3;
           border-radius: 10px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
           .modal-content {
-            max-height: 85vh;
-            border-radius: 2.5rem 2.5rem 0 0;
-            position: absolute;
-            bottom: 0;
-            padding-bottom: env(safe-area-inset-bottom);
+            width: 90vw;
+            max-width: 400px;
+            max-height: 80vh;
+            border-radius: 1.5rem;
+            position: relative;
+            margin: auto;
           }
           .modal-header {
-            padding: 1.75rem 1.5rem 1.25rem;
+            padding: 3rem 3.5rem 1.25rem 1.75rem;
+          }
+          .close-btn {
+            position: absolute;
+            top: 2.5rem;
+            right: 1.25rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
           }
           .modal-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
+            white-space: normal;
+          }
+          .summary-row {
+            flex-wrap: wrap;
           }
           .reviews-scroll-area {
             padding: 1.5rem;
           }
           .modal-overlay {
-            padding: 0;
-            align-items: flex-end;
+            padding: 1.5rem;
+            align-items: flex-start;
+            overflow-y: auto;
+          }
+          .modal-footer {
+            padding: 1.25rem 1.5rem;
           }
         }
       `}</style>
