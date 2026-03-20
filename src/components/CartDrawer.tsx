@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 
 export default function CartDrawer() {
-  const { cartItems, isCartOpen, setIsCartOpen, removeItem, updateQuantity, cartTotal } = useCart();
+  const { cartItems, isCartOpen, setIsCartOpen, removeItem, updateQuantity, cartTotal, cartTotalSavings } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Sync animation state with context
@@ -82,6 +82,12 @@ export default function CartDrawer() {
               <span>SUBTOTAL</span>
               <span>{cartTotal} kr</span>
             </div>
+            {cartTotalSavings > 0 && (
+              <div className="savings-row">
+                <span>DU SPARAR</span>
+                <span>{cartTotalSavings} kr</span>
+              </div>
+            )}
             <button className="checkout-btn">GÅ TILL KASSAN</button>
           </div>
         )}
@@ -331,8 +337,16 @@ export default function CartDrawer() {
           justify-content: space-between;
           font-weight: 800;
           font-size: 1.1rem;
-          margin-bottom: 1.25rem;
+          margin-bottom: 0.5rem;
           color: #130c24;
+        }
+        .savings-row {
+          display: flex;
+          justify-content: space-between;
+          font-weight: 700;
+          font-size: 0.95rem;
+          color: #16a34a;
+          margin-bottom: 1.25rem;
         }
         .checkout-btn {
           width: 100%;

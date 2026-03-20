@@ -18,16 +18,21 @@ const IMAGES = [
 interface Pack {
   id: number;
   label: string;
+  subtitle: string;
   badge: string | null;
   price: number;
+  unitPrice: string;
+  savings: string | null;
+  savingsAmount: number;
   originalPrice: number;
   image: string;
 }
 
 const PACKS: Pack[] = [
-  { id: 1, label: '1 BURK',    badge: null,           price: 299,  originalPrice: 299,  image: '/1 burk.webp' },
-  { id: 2, label: '2 BURKAR',  badge: 'SPARA 50 KR',  price: 548,  originalPrice: 598,  image: '/2 burkar.webp' },
-  { id: 3, label: '3 BURKAR',  badge: 'SPARA 150 KR', price: 747,  originalPrice: 897, image: '/3 burkar.webp' },
+  { id: 1, label: '1 BURK',    subtitle: 'Perfekt för att prova',   badge: null,           price: 299, unitPrice: '299 kr / burk', savings: null, savingsAmount: 0, originalPrice: 299,  image: '/1 burk.webp' },
+  { id: 2, label: '2 BURKAR',  subtitle: 'Smart start',             badge: null,           price: 549, unitPrice: '275 kr / burk', savings: 'Spara 49 kr', savingsAmount: 49, originalPrice: 598,  image: '/2 burkar.webp' },
+  { id: 3, label: '4 BURKAR',  subtitle: '', badge: 'MEST POPULÄR', price: 799, unitPrice: '200 kr / burk', savings: 'Spara 397 kr', savingsAmount: 397, originalPrice: 1196, image: '/3 burkar.webp' },
+  { id: 4, label: '6 BURKAR',  subtitle: '',             badge: 'BÄST VÄRDE',   price: 999, unitPrice: '167 kr / burk', savings: 'Spara 795 kr', savingsAmount: 795, originalPrice: 1794,  image: '/3 burkar.webp' },
 ];
 
 const TABS = ['Detaljer', 'Ingredienser', 'FAQ'];
@@ -427,7 +432,7 @@ function ImageGallery() {
 }
 
 function PurchaseBox() {
-  const [selectedPack, setSelectedPack] = useState(1);
+  const [selectedPack, setSelectedPack] = useState(3);
   const [quantity, setQuantity]         = useState(1);
   const [activeTab, setActiveTab]       = useState('Detaljer');
   const [showBenefits, setShowBenefits] = useState(false);
@@ -653,16 +658,32 @@ function PurchaseBox() {
         )}
       </div>
 
-      {/* Pack selector */}
-      <div className="pack-grid">
-        {PACKS.map(p => (
-          <button key={p.id} onClick={() => setSelectedPack(p.id)} className={`pack-btn ${selectedPack === p.id ? 'active' : ''}`}>
-            <div className="pack-img-box">
-              <img src={p.image} alt="" />
-            </div>
-            <div className="pack-label">{p.label}</div>
-            {p.badge && <div className="pack-badge">{p.badge}</div>}
-          </button>
+      {/* Packs Selection Header */}
+      <div className="packs-selection-title">Välj ditt paket</div>
+
+      {/* All Packs Horizontal Layout */}
+      <div className="all-packs-container">
+        {PACKS.map((p, index) => (
+          <div key={p.id} className="pack-wrapper">
+            <button onClick={() => setSelectedPack(p.id)} className={`pack-btn horizontal ${selectedPack === p.id ? 'active' : ''}`}>
+              <div className="horizontal-content">
+                <div className="pack-img-box small">
+                  <img src={p.image} alt="" />
+                </div>
+                <div className="text-info">
+                  {p.id === 4 && <div className="dagens-deal-inline">DAGENS DEAL</div>}
+                  <div className="pack-label">{p.label}</div>
+                  {p.subtitle && <div className="pack-sublabel">{p.subtitle}</div>}
+                </div>
+                <div className="price-info">
+                  <div className="pack-price">{p.price} kr</div>
+                  <div className="pack-unit-price">{p.unitPrice}</div>
+                  {p.savings && <div className="pack-savings">{p.savings}</div>}
+                </div>
+              </div>
+              {p.badge && <div className="pack-badge horizontal-badge">{p.badge}</div>}
+            </button>
+          </div>
         ))}
       </div>
 
@@ -694,7 +715,8 @@ function PurchaseBox() {
               price: pack.price,
               quantity: quantity,
               image: pack.image,
-              label: pack.label
+              label: pack.label,
+              savingsAmount: pack.savingsAmount
             });
           }}
         >
@@ -720,6 +742,9 @@ function PurchaseBox() {
           </li>
           <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ color: '#8b5cf6', fontSize: '1rem' }}>✓</span> Bättre morgnar utan tung känsla
+          </li>
+          <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ color: '#8b5cf6', fontSize: '1rem' }}>✓</span> Inga prenumerationer
           </li>
         </ul>
       </div>
@@ -881,6 +906,32 @@ function PurchaseBox() {
           color: #130c24;
           text-transform: uppercase;
         }
+        .pack-price {
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: #130c24;
+          margin-top: 0.4rem;
+        }
+        .pack-unit-price {
+          font-size: 0.65rem;
+          font-weight: 700;
+          color: #130c24;
+          margin-top: 0.1rem;
+        }
+        .pack-sublabel {
+          font-size: 0.55rem;
+          color: #130c24;
+          margin-top: 0.3rem;
+          font-weight: 600;
+          opacity: 0.9;
+        }
+        .pack-savings {
+          font-size: 0.58rem;
+          font-weight: 800;
+          color: #16a34a;
+          margin-top: 0.25rem;
+          text-transform: uppercase;
+        }
         .pack-badge {
           position: absolute;
           bottom: -11px;
@@ -894,6 +945,110 @@ function PurchaseBox() {
           border-radius: 100px;
           white-space: nowrap;
           box-shadow: 0 2px 6px rgba(139, 92, 246, 0.2);
+        }
+        .pack-badge {
+          position: absolute;
+          bottom: -11px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #8b5cf6;
+          color: white;
+          font-size: 0.5rem;
+          font-weight: 800;
+          padding: 0.25rem 0.6rem;
+          border-radius: 99px;
+          white-space: nowrap;
+          z-index: 2;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Horizontal Layout Styles */
+        .all-packs-container {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          margin-top: 0rem;
+        }
+        .packs-selection-title {
+          font-size: 0.82rem;
+          font-weight: 800;
+          color: #130c24;
+          text-transform: uppercase;
+          margin-bottom: 0.8rem;
+          letter-spacing: 0.02em;
+        }
+        .pack-wrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .dagens-deal-inline {
+          font-size: 0.55rem;
+          font-weight: 900;
+          color: #ef4444;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.1rem;
+        }
+        .pack-btn.horizontal {
+          width: 100%;
+          padding: 0.8rem 1rem;
+          text-align: left;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .horizontal-content {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          width: 100%;
+        }
+        .horizontal-content .pack-img-box.small {
+          width: 48px;
+          height: 48px;
+          margin: 0;
+          flex-shrink: 0;
+        }
+        .horizontal-content .text-info {
+          flex: 1;
+        }
+        .horizontal-content .price-info {
+          text-align: right;
+          margin-right: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 0.1rem;
+        }
+        .horizontal-content .pack-label {
+          font-size: 0.8rem;
+        }
+        .horizontal-content .pack-sublabel {
+          font-size: 0.6rem;
+          margin-top: 0.1rem;
+        }
+        .horizontal-content .pack-price {
+          margin: 0;
+          font-size: 0.85rem;
+        }
+        .horizontal-content .pack-unit-price {
+          margin: 0;
+          font-size: 0.6rem;
+        }
+        .horizontal-content .pack-savings {
+          margin: 0;
+          font-size: 0.55rem;
+          white-space: nowrap;
+          color: #16a34a;
+          font-weight: 800;
+        }
+        .horizontal-badge {
+          position: absolute;
+          top: -8px;
+          right: 20px;
+          bottom: auto;
+          left: auto;
+          transform: none;
         }
         .purchase-option {
           display: flex;

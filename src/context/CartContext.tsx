@@ -9,6 +9,7 @@ interface CartItem {
   quantity: number;
   image: string;
   label?: string; // e.g. "1 PACK"
+  savingsAmount?: number;
 }
 
 interface CartContextType {
@@ -20,6 +21,7 @@ interface CartContextType {
   setIsCartOpen: (isOpen: boolean) => void;
   cartCount: number;
   cartTotal: number;
+  cartTotalSavings: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -73,6 +75,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const cartTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const cartTotalSavings = cartItems.reduce((acc, item) => acc + (item.savingsAmount || 0) * item.quantity, 0);
 
   return (
     <CartContext.Provider value={{
@@ -83,7 +86,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       isCartOpen,
       setIsCartOpen,
       cartCount,
-      cartTotal
+      cartTotal,
+      cartTotalSavings
     }}>
       {children}
     </CartContext.Provider>
