@@ -7,9 +7,11 @@ import BenefitCards from '@/components/BenefitCards';
 import IngredientsSection from '@/components/IngredientsSection';
 import HowItWorks from '@/components/HowItWorks';
 import Reviews from '@/components/Reviews';
+import ReviewsCarousel from '@/components/ReviewsCarousel';
 import ComparisonTable from '@/components/ComparisonTable';
 import FAQ from '@/components/FAQ';
 import FinalCTA from '@/components/FinalCTA';
+import ReviewsFull from '@/components/ReviewsFull';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -20,6 +22,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <ProblemSolution />
+        <ReviewsCarousel />
         <ComparisonTable />
         <HowItWorks />
         <BenefitCards />
@@ -27,6 +30,7 @@ export default function Home() {
         <Reviews />
         <FAQ />
         <FinalCTA />
+        <ReviewsFull />
       </main>
       <Footer />
     </>
