@@ -611,50 +611,34 @@ function PurchaseBox() {
             )}
 
             {activeTab === 'Detaljer' && (
-              <>
-                {/* Expandable Benefits List */}
-                {showBenefits && (
-                  <ul style={{
-                    listStyleType: 'none',
-                    padding: 0,
-                    margin: '0.75rem 0 1.25rem 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.85rem',
-                    color: '#130c24',
-                    fontSize: '0.85rem',
-                    lineHeight: 1.6,
-                  }}>
-                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-                      <span>Hjälper dig varva ner när tankarna snurrar</span>
-                    </li>
-                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-                      <span>Hjälper dig komma till ro och somna lättare</span>
-                    </li>
-                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-                      <span>Vakna utan tung eller seg känsla nästa dag</span>
-                    </li>
-                    <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
-                      <span>Med L-Theanine, Magnesium och botaniska extrakt</span>
-                    </li>
-                  </ul>
-                )}
-
-                <button
-                  className="benefits-link"
-                  onClick={() => setShowBenefits(!showBenefits)}
-                  style={{
-                    marginTop: showBenefits ? '0' : '0.75rem',
-                    marginBottom: '0.5rem'
-                  }}
-                >
-                  {showBenefits ? 'Dölj fördelar -' : 'Se fördelar +'}
-                </button>
-              </>
+              <ul style={{
+                listStyleType: 'none',
+                padding: 0,
+                margin: '0.5rem 0 1rem 0',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.85rem',
+                color: '#130c24',
+                fontSize: '0.85rem',
+                lineHeight: 1.6,
+              }}>
+                <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                  <span>Hjälper dig varva ner när tankarna snurrar</span>
+                </li>
+                <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                  <span>Hjälper dig komma till ro och somna lättare</span>
+                </li>
+                <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                  <span>Vakna utan tung eller seg känsla nästa dag</span>
+                </li>
+                <li style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.65rem', fontWeight: 800, flexShrink: 0, marginTop: '3px' }}>✓</span>
+                  <span>Med L-Theanine, Magnesium och botaniska extrakt</span>
+                </li>
+              </ul>
             )}
           </div>
         )}
