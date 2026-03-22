@@ -73,10 +73,11 @@ export default function CookieConsent() {
         <div className="cookie-banner-overlay">
           <div className="cookie-banner">
             <div className="cookie-banner-content">
-              <h3>Vi värdesätter din integritet 🐨</h3>
+              <h3>Vi använder cookies för att göra din upplevelse bättre 🐨</h3>
               <p>
-                Vi använder cookies för att ge dig den bästa möjliga upplevelsen, analysera trafik och anpassa vår marknadsföring. Välj "Godkänn alla" för att acceptera alla cookies, eller klicka på "Anpassa" för att välja själv.
-                Du kan läsa mer i vår <Link href="/cookiepolicy">Cookiepolicy</Link> och <Link href="#">Integritetspolicy</Link>.
+                De hjälper oss att få sidan att fungera smidigt, förstå hur den används och visa mer relevant innehåll. Du kan godkänna alla eller välja själv vad du är okej med.
+                <br />
+                Läs mer i vår <Link href="/cookiepolicy">Cookiepolicy</Link> och <Link href="#">Integritetspolicy</Link>.
               </p>
             </div>
             <div className="cookie-banner-actions">
