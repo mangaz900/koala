@@ -8,23 +8,24 @@ export default function CartDrawer() {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleCheckout = () => {
-    if (cartItems.length === 0) {
-      alert("Din korg är tom");
-      return;
-    }
+    if (cartItems.length === 0) return;
 
     // 1. TikTok InitiateCheckout Tracking
     if (typeof window !== 'undefined' && (window as any).ttq) {
-      (window as any).ttq.track('InitiateCheckout', {
-        value: cartTotal,
-        currency: 'SEK',
-        contents: cartItems.map(item => ({
-          content_id: item.variantId || String(item.id),
-          content_name: item.name,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      });
+      try {
+        (window as any).ttq.track('InitiateCheckout', {
+          value: cartTotal,
+          currency: 'SEK',
+          contents: cartItems.map(item => ({
+            content_id: item.variantId || String(item.id),
+            content_name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          }))
+        });
+      } catch (e: any) {
+        console.error("TikTok tracking error:", e);
+      }
     }
 
     // 2. Redirect to Shopify Checkout
@@ -35,10 +36,8 @@ export default function CartDrawer() {
     
     if (cartParams) {
       const checkoutUrl = `https://try.koalarituals.com/cart/add?${cartParams}&return_to=/checkout`;
-      console.log('Redirecting to Shopify:', checkoutUrl);
       window.location.href = checkoutUrl;
     } else {
-      console.error("Saknar Variant ID för produkterna i korgen.");
       window.location.href = 'https://try.koalarituals.com';
     }
   };
@@ -53,8 +52,6 @@ export default function CartDrawer() {
       document.body.style.overflow = 'unset';
     }
   }, [isCartOpen]);
-
-  if (!isCartOpen && !isAnimating) return null;
 
   if (!isCartOpen && !isAnimating) return null;
 
