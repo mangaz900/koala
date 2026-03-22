@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
+import { Suspense } from 'react';
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import TiktokPixel from "@/components/TiktokPixel";
@@ -55,7 +56,9 @@ export default function RootLayout({
       </head>
       <body>
         <CartProvider>
-          <TiktokPixel />
+          <Suspense fallback={null}>
+            <TiktokPixel />
+          </Suspense>
           {children}
           <CartDrawer />
         </CartProvider>
