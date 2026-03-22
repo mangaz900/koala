@@ -109,14 +109,29 @@ export default function Footer() {
             © 2025 Koala Ritual. Alla rättigheter förbehållna.
           </p>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
-            {['Integritetspolicy', 'Villkor', 'Cookies'].map((item) => (
-              <a key={item} href="#" style={{ color: '#4b3f6a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#6b5f8a')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#4b3f6a')}
-              >
-                {item}
-              </a>
-            ))}
+            {/* Standard Links */}
+            <a href="#" style={{ color: '#4b3f6a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#6b5f8a')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4b3f6a')}>
+              Integritetspolicy
+            </a>
+            <a href="#" style={{ color: '#4b3f6a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#6b5f8a')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4b3f6a')}>
+              Villkor
+            </a>
+            <a href="/cookiepolicy" style={{ color: '#4b3f6a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#6b5f8a')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4b3f6a')}>
+              Cookiepolicy
+            </a>
+            {/* Settings Trigger */}
+            <a href="#" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('openCookieSettings')); }} 
+               style={{ color: '#4b3f6a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s', cursor: 'pointer' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#6b5f8a')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4b3f6a')}>
+              Cookie-inställningar
+            </a>
           </div>
         </div>
       </div>
