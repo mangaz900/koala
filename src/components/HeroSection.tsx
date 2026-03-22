@@ -582,31 +582,35 @@ function PurchaseBox() {
           </div>
         ) : (
           <div style={{ marginTop: '1rem' }}>
-            <p className="tab-text">
-              {activeTab === 'Ingredienser' && !showFullIng 
-                ? (TAB_CONTENT as Record<string, string>)[activeTab].slice(0, 130) + '...'
-                : (TAB_CONTENT as Record<string, string>)[activeTab]
-                    .split('**')
-                    .map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part)
-              }
-            </p>
-            
-            {activeTab === 'Ingredienser' && (TAB_CONTENT as Record<string, string>)[activeTab].length > 130 && (
-              <button 
-                onClick={() => setShowFullIng(!showFullIng)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#8b5cf6',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  padding: '0.25rem 0',
-                  textDecoration: 'underline'
-                }}
-              >
-                {showFullIng ? 'Visa mindre -' : 'Visa mer +'}
-              </button>
+            {activeTab === 'Ingredienser' && (
+              <>
+                <p className="tab-text">
+                  {!showFullIng 
+                    ? (TAB_CONTENT as Record<string, string>)[activeTab].slice(0, 130) + '...'
+                    : (TAB_CONTENT as Record<string, string>)[activeTab]
+                        .split('**')
+                        .map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part)
+                  }
+                </p>
+                
+                {(TAB_CONTENT as Record<string, string>)[activeTab].length > 130 && (
+                  <button 
+                    onClick={() => setShowFullIng(!showFullIng)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#8b5cf6',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      padding: '0.25rem 0',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    {showFullIng ? 'Visa mindre -' : 'Visa mer +'}
+                  </button>
+                )}
+              </>
             )}
 
             {activeTab === 'Detaljer' && (
