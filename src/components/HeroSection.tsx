@@ -31,8 +31,8 @@ interface Pack {
 const PACKS: Pack[] = [
   { id: 1, label: '1 BURK',    subtitle: 'Perfekt för att prova',   badge: null,           price: 299, unitPrice: '299 kr / burk', savings: null, savingsAmount: 0, originalPrice: 299,  image: '/1 burk.webp' },
   { id: 2, label: '2 BURKAR',  subtitle: 'Smart start',             badge: null,           price: 549, unitPrice: '275 kr / burk', savings: 'Spara 49 kr', savingsAmount: 49, originalPrice: 598,  image: '/2 burkar.webp' },
-  { id: 3, label: '4 BURKAR',  subtitle: '', badge: 'MEST POPULÄR', price: 799, unitPrice: '200 kr / burk', savings: 'Spara 397 kr', savingsAmount: 397, originalPrice: 1196, image: '/3 burkar.webp' },
-  { id: 4, label: '6 BURKAR',  subtitle: '',             badge: 'BÄST VÄRDE',   price: 999, unitPrice: '167 kr / burk', savings: 'Spara 795 kr', savingsAmount: 795, originalPrice: 1794,  image: '/3 burkar.webp' },
+  { id: 3, label: '4 BURKAR',  subtitle: '', badge: 'MEST POPULÄR', price: 799, unitPrice: '200 kr / burk', savings: 'Spara 397 kr', savingsAmount: 397, originalPrice: 1196, image: '/4-pack.png' },
+  { id: 4, label: '6 BURKAR',  subtitle: 'DAGENS DEAL', badge: 'BÄST VÄRDE',   price: 999, unitPrice: '167 kr / burk', savings: 'Spara 795 kr', savingsAmount: 795, originalPrice: 1794,  image: '/6-pack.png' },
 ];
 
 const TABS = ['Detaljer', 'Ingredienser', 'FAQ'];
@@ -52,6 +52,7 @@ const FAQ_ITEMS = [
   { q: 'Passar den alla?', a: 'Rekommenderas för vuxna. Inte lämplig för gravida, ammande eller personer under 18 år. Konsultera läkare vid medicinering.' },
   { q: 'Hur många gummies finns i en burk?', a: 'Varje burk innehåller 60 gummies, vilket motsvarar 30 portioner vid 2 gummies per kväll.' },
   { q: 'Vad gör Koala Calm System™ annorlunda?', a: 'Koala Calm System™ är vår kvällsformula för lugnare sinne, mjukare insomning och bättre morgnar — särskilt för dig som känner dig trött i kroppen men klarvaken i huvudet.' },
+  { q: 'Behöver jag recept?', a: 'Nej – Koala Ritual är helt naturliga kosttillskott och säljs helt utan recept.' },
 ];
 
 const BENEFIT_ICONS = [

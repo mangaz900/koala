@@ -223,8 +223,8 @@ export default function ReviewsModal({ isOpen, onClose }: { isOpen: boolean, onC
           <div>
             <h2 className="modal-title">Kundomdömen</h2>
             <div className="summary-row">
-              <Stars count={5} />
-              <span>4,9 / 5 baserat på 1 842 omdömen</span>
+              <Stars count={4.6} />
+              <span>4,6 / 5 baserat på 1 842 omdömen</span>
             </div>
           </div>
           <button className="close-btn" onClick={onClose}>✕</button>

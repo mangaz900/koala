@@ -44,12 +44,6 @@ const MEN_REVIEWS: Review[] = [
     text: '“Jag var rätt skeptisk eftersom mycket i den här kategorin känns som samma sak i olika burkar. Men de här kändes faktiskt annorlunda. Kvällen blir lugnare och jag vaknar inte lika förstörd som jag gjort av andra grejer jag testat.”',
     image: '/images/Man_27_years_202603201147.jpg',
   },
-  {
-    name: 'Daniel',
-    age: 45,
-    text: '“Det jag gillar mest är att de inte känns för starka. Jag vill inte bli utslagen, jag vill bara kunna somna utan att ligga och kämpa med min egen hjärna. De här hjälpte mig komma till ro på ett mycket bättre sätt än vanliga sömngummies.”',
-    image: '/images/Man_35_years_202603201144 (1).jpg',
-  },
 ];
 
 const ALL_REVIEWS: Review[] = [
@@ -58,7 +52,6 @@ const ALL_REVIEWS: Review[] = [
   WOMEN_REVIEWS[1],
   MEN_REVIEWS[1],
   WOMEN_REVIEWS[2],
-  MEN_REVIEWS[2],
 ];
 
 export default function ReviewsCarousel() {

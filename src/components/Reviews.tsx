@@ -83,8 +83,8 @@ export default function Reviews() {
           gap: '1rem',
           margin: '1.5rem 0 3rem',
         }}>
-          <Stars />
-          <span style={{ color: '#f0eaff', fontWeight: 700, fontSize: '1.1rem' }}>4,8</span>
+          <Stars count={4.6} />
+          <span style={{ color: '#f0eaff', fontWeight: 700, fontSize: '1.1rem' }}>4,6</span>
           <span style={{ color: '#a899c4', fontSize: '0.9rem' }}>från 1 842+ verifierade köp</span>
         </div>
 
