@@ -479,7 +479,7 @@ function PurchaseBox() {
         <h1 className="product-title" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.75rem)' }}>
           För dig som är trött i kroppen men <em className="italic-title">klarvaken i huvudet</em>
         </h1>
-        <p className="subtitle">En kvällsgummy utvecklad för att hjälpa dig varva ner, komma till ro lättare och vakna utan tung känsla nästa dag.</p>
+        <p className="subtitle">Utvecklad för att hjälpa dig varva ner, komma till ro lättare och vakna utan tung känsla nästa dag.</p>
       </div>
 
       {/* Tabs */}
