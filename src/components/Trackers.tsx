@@ -16,12 +16,15 @@ export default function Trackers() {
     setMounted(true);
 
     const checkConsent = () => {
-      const saved = localStorage.getItem('koala_cookie_consent');
-      if (saved) {
-        setConsent(JSON.parse(saved));
-      } else {
-        setConsent({ necessary: true, analytics: false, marketing: false });
+      if (typeof document === 'undefined') return;
+      const match = document.cookie.match(new RegExp('(^| )koala_cookie_consent=([^;]+)'));
+      if (match) {
+        try {
+          setConsent(JSON.parse(decodeURIComponent(match[2])));
+          return;
+        } catch { /* ignore */ }
       }
+      setConsent({ necessary: true, analytics: false, marketing: false });
     };
 
     // Initial check

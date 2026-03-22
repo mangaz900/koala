@@ -18,20 +18,34 @@ export default function CookieConsent() {
     marketing: false,
   });
 
+  const getCookieConsent = () => {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(new RegExp('(^| )koala_cookie_consent=([^;]+)'));
+    if (match) {
+      try { return JSON.parse(decodeURIComponent(match[2])); } catch { return null; }
+    }
+    return null;
+  };
+
+  const setCookieConsent = (choices: CookieChoices) => {
+    const domainStr = window.location.hostname.includes('koalarituals.com') ? '; domain=.koalarituals.com' : '';
+    document.cookie = `koala_cookie_consent=${encodeURIComponent(JSON.stringify(choices))}${domainStr}; path=/; max-age=31536000`;
+  };
+
   useEffect(() => {
-    const saved = localStorage.getItem('koala_cookie_consent');
+    const saved = getCookieConsent();
     if (!saved) {
       setShowBanner(true);
     } else {
-      setPreferences(JSON.parse(saved));
+      setPreferences(saved);
     }
 
     const handleOpenSettings = () => {
       setShowModal(true);
       setShowBanner(false);
-      const current = localStorage.getItem('koala_cookie_consent');
+      const current = getCookieConsent();
       if (current) {
-        setPreferences(JSON.parse(current));
+        setPreferences(current);
       }
     };
 
@@ -52,7 +66,7 @@ export default function CookieConsent() {
   };
 
   const saveConsent = (choices: CookieChoices) => {
-    localStorage.setItem('koala_cookie_consent', JSON.stringify(choices));
+    setCookieConsent(choices);
     setPreferences(choices);
     setShowBanner(false);
     setShowModal(false);
