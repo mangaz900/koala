@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import TiktokPixel from "@/components/TiktokPixel";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="sv">
       <body>
         <CartProvider>
+          <GoogleAnalytics />
           <TiktokPixel />
           {children}
           <CartDrawer />
