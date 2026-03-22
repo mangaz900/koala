@@ -38,7 +38,6 @@ const PACKS: Pack[] = [
 
 const TABS = ['Detaljer', 'Ingredienser', 'FAQ'];
 const TAB_CONTENT: Record<string, string> = {
-  'Detaljer':     'Koala Ritual Sleep Gummies är utvecklade för kvällar när kroppen är trött men hjärnan fortfarande går på högvarv. Med L-Theanine, Magnesium och Ashwagandha hjälper de dig varva ner, komma till ro lättare och vakna utan tung känsla nästa dag.',
   'Ingredienser': 'L-Theanine (200mg), Valerianarot (100mg), Kamomill (100mg), Ashwagandha (100mg), Magnesium (100mg), Passionsblomma (100mg), Glycin (100mg), Maltitol, Vatten, Hallonarom, Pektin, Citronsyra.\n\n**Innehåller inte:** Socker, Gluten, Gelatin, Soja, Mejeriprodukter, Nötter, Ägg, Konstgjorda sötningsmedel, färger eller aromer.',
 };
 
