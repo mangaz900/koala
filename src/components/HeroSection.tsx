@@ -32,7 +32,7 @@ interface Pack {
 const PACKS: Pack[] = [
   { id: 1, label: '1 BURK',    subtitle: 'Perfekt för att prova',   badge: null,           price: 299, unitPrice: '299 kr / burk', savings: null, savingsAmount: 0, originalPrice: 299,  image: '/1 burk.webp', variantId: '57466035339589' },
   { id: 2, label: '2 BURKAR',  subtitle: 'Smart start',             badge: null,           price: 549, unitPrice: '275 kr / burk', savings: 'Spara 49 kr', savingsAmount: 49, originalPrice: 598,  image: '/2 burkar.webp', variantId: '57466036420933' },
-  { id: 3, label: '4 BURKAR',  subtitle: '', badge: 'MEST POPULÄR', price: 799, unitPrice: '200 kr / burk', savings: 'Spara 397 kr', savingsAmount: 397, originalPrice: 1196, image: '/4-pack.png', variantId: '57466037207365' },
+  { id: 3, label: '4 BURKAR',  subtitle: 'Favoriten just nu', badge: 'MEST POPULÄR', price: 799, unitPrice: '200 kr / burk', savings: 'Spara 397 kr', savingsAmount: 397, originalPrice: 1196, image: '/4-pack.png', variantId: '57466037207365' },
   { id: 4, label: '6 BURKAR',  subtitle: 'DAGENS DEAL', badge: 'BÄST VÄRDE',   price: 999, unitPrice: '167 kr / burk', savings: 'Spara 795 kr', savingsAmount: 795, originalPrice: 1794,  image: '/6-pack.png', variantId: '57466039271749' },
 ];
 
