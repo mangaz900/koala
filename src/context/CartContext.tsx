@@ -10,6 +10,7 @@ interface CartItem {
   image: string;
   label?: string; // e.g. "1 PACK"
   savingsAmount?: number;
+  variantId?: string;
 }
 
 interface CartContextType {
@@ -48,6 +49,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [cartItems]);
 
   const addItem = (newItem: CartItem) => {
+    // TikTok AddToCart Tracking
+    if (typeof window !== 'undefined' && (window as any).ttq) {
+      (window as any).ttq.track('AddToCart', {
+        content_id: String(newItem.id),
+        content_name: newItem.name,
+        value: newItem.price,
+        currency: 'SEK',
+        quantity: newItem.quantity
+      });
+    }
+
     setCartItems(prev => {
       const existingItem = prev.find(item => item.id === newItem.id);
       if (existingItem) {

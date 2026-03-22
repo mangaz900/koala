@@ -7,6 +7,36 @@ export default function CartDrawer() {
   const { cartItems, isCartOpen, setIsCartOpen, removeItem, updateQuantity, cartTotal, cartTotalSavings } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
 
+  const handleCheckout = () => {
+    // 1. TikTok InitiateCheckout Tracking
+    if (typeof window !== 'undefined' && (window as any).ttq) {
+      (window as any).ttq.track('InitiateCheckout', {
+        value: cartTotal,
+        currency: 'SEK',
+        contents: cartItems.map(item => ({
+          content_id: item.variantId || String(item.id),
+          content_name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        }))
+      });
+    }
+
+    // 2. Redirect to Shopify Checkout
+    if (cartItems.length > 0) {
+      const checkoutItems = cartItems
+        .filter(item => item.variantId)
+        .map(item => `${item.variantId}:${item.quantity}`)
+        .join(',');
+      
+      if (checkoutItems) {
+        window.location.href = `https://try.koalarituals.com/cart/${checkoutItems}`;
+      } else {
+        window.location.href = 'https://try.koalarituals.com';
+      }
+    }
+  };
+
   // Sync animation state with context
   useEffect(() => {
     if (isCartOpen) {
@@ -88,7 +118,7 @@ export default function CartDrawer() {
                 <span>{cartTotalSavings} kr</span>
               </div>
             )}
-            <button className="checkout-btn">GÅ TILL KASSAN</button>
+            <button className="checkout-btn" onClick={handleCheckout}>GÅ TILL KASSAN</button>
           </div>
         )}
       </div>
