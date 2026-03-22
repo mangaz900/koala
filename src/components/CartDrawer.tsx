@@ -42,14 +42,23 @@ export default function CartDrawer() {
     }
   };
 
-  // Sync animation state with context
+  // Sync animation state with context & Lock body scroll (iOS bulletproof)
   useEffect(() => {
     if (isCartOpen) {
       setIsAnimating(true);
-      document.body.style.overflow = 'hidden';
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${scrollY}px`;
     } else {
       setTimeout(() => setIsAnimating(false), 300);
-      document.body.style.overflow = 'unset';
+      if (document.body.style.position === 'fixed') {
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
   }, [isCartOpen]);
 
