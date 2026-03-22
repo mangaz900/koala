@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import TiktokPixel from "@/components/TiktokPixel";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -26,9 +25,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="sv">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-QM2DM2LTVD"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-QM2DM2LTVD');
+            `,
+          }}
+        />
+      </head>
       <body>
         <CartProvider>
-          <GoogleAnalytics />
           <TiktokPixel />
           {children}
           <CartDrawer />
