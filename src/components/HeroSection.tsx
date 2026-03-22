@@ -712,14 +712,14 @@ function PurchaseBox() {
           className="cta-button"
           onClick={() => {
             addItem({
-              id: selectedPack.id,
-              name: 'Koala Sleep Gummies',
-              price: selectedPack.price,
-              quantity: 1,
-              image: selectedPack.image,
-              label: selectedPack.label,
-              savingsAmount: selectedPack.savingsAmount,
-              variantId: selectedPack.variantId
+              id: pack.id,
+              name: 'Koala Ritual Sleep Gummies',
+              price: pack.price,
+              quantity: quantity,
+              image: pack.image,
+              label: pack.label,
+              savingsAmount: pack.savingsAmount,
+              variantId: pack.variantId
             });
           }}
         >
