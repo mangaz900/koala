@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 export async function POST(req: NextRequest) {
   try {
     // 1. GDPR Consent Check
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const consentCookie = cookieStore.get('koala_cookie_consent');
     
     if (!consentCookie) {
