@@ -49,7 +49,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [cartItems]);
 
   const addItem = (newItem: CartItem) => {
-    // TikTok AddToCart Tracking
+    // Generate deduplication ID for both Client & Server Pixels
+    const eventId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+
+    // 1. TikTok Client-Side Tracking
     if (typeof window !== 'undefined' && (window as any).ttq) {
       (window as any).ttq.track('AddToCart', {
         content_id: String(newItem.id),
@@ -57,7 +60,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         value: newItem.price,
         currency: 'SEK',
         quantity: newItem.quantity
-      });
+      }, { event_id: eventId });
+    }
+
+    // 2. TikTok Server-Side Tracking
+    if (typeof window !== 'undefined') {
+      fetch('/api/tiktok', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'AddToCart',
+          eventId: eventId,
+          pageUrl: window.location.href,
+          contents: [{
+            content_id: String(newItem.id),
+            content_name: newItem.name,
+            quantity: newItem.quantity,
+            price: newItem.price
+          }],
+          value: newItem.price * newItem.quantity,
+          currency: 'SEK'
+        })
+      }).catch(err => console.error('TikTok CAPI error:', err));
     }
 
     setCartItems(prev => {

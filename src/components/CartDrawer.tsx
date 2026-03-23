@@ -10,7 +10,9 @@ export default function CartDrawer() {
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
 
-    // 1. TikTok InitiateCheckout Tracking
+    const eventId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
+
+    // 1. TikTok Client Tracking
     if (typeof window !== 'undefined' && (window as any).ttq) {
       try {
         (window as any).ttq.track('InitiateCheckout', {
@@ -22,10 +24,31 @@ export default function CartDrawer() {
             quantity: item.quantity,
             price: item.price
           }))
-        });
+        }, { event_id: eventId });
       } catch (e: any) {
         console.error("TikTok tracking error:", e);
       }
+    }
+
+    // 2. TikTok Server Tracking
+    if (typeof window !== 'undefined') {
+      fetch('/api/tiktok', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'InitiateCheckout',
+          eventId: eventId,
+          pageUrl: window.location.href,
+          contents: cartItems.map(item => ({
+            content_id: item.variantId || String(item.id),
+            content_name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          })),
+          value: cartTotal,
+          currency: 'SEK'
+        })
+      }).catch(err => console.error('TikTok CAPI error:', err));
     }
 
     // 2. Redirect to Shopify Checkout
