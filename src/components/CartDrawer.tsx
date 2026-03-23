@@ -144,7 +144,7 @@ export default function CartDrawer() {
         {cartItems.length > 0 && (
           <div className="drawer-footer">
             <div className="subtotal-row">
-              <span>SUBTOTAL</span>
+              <span>Totalt:</span>
               <span>{cartTotal} kr</span>
             </div>
             {cartTotalSavings > 0 && (
