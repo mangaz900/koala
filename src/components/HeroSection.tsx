@@ -648,7 +648,17 @@ function PurchaseBox() {
       </div>
 
       {/* Packs Selection Header */}
-      <div className="packs-selection-title">Välj ditt paket</div>
+      <div className="packs-selection-title" style={{ marginBottom: '0.5rem' }}>Välj ditt paket</div>
+      <p style={{
+        marginTop: 0,
+        marginBottom: '1.25rem',
+        fontSize: '0.95rem',
+        color: '#4b3f6a',
+        fontWeight: 500,
+        lineHeight: 1.4
+      }}>
+        Köp fler – spara mer. Sov bättre varje natt.
+      </p>
 
       {/* All Packs Horizontal Layout */}
       <div className="all-packs-container">
