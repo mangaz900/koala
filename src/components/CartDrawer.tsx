@@ -49,6 +49,36 @@ export default function CartDrawer() {
           currency: 'SEK'
         })
       }).catch(err => console.error('TikTok CAPI error:', err));
+
+      // 3. Meta Client Tracking
+      if ((window as any).fbq) {
+        try {
+          (window as any).fbq('track', 'InitiateCheckout', {
+            value: cartTotal,
+            currency: 'SEK',
+            num_items: cartItems.reduce((a, i) => a + i.quantity, 0),
+            contents: cartItems.map(item => ({ id: item.variantId || String(item.id), quantity: item.quantity }))
+          }, { eventID: eventId });
+        } catch (e) { /* ignore */ }
+      }
+
+      // 4. Meta Conversions API (Server-Side)
+      fetch('/api/meta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'InitiateCheckout',
+          eventId: eventId,
+          pageUrl: window.location.href,
+          contents: cartItems.map(item => ({
+            id: item.variantId || String(item.id),
+            quantity: item.quantity,
+            item_price: item.price
+          })),
+          value: cartTotal,
+          currency: 'SEK'
+        })
+      }).catch(err => console.error('Meta CAPI error:', err));
     }
 
     // 2. Redirect to Shopify Checkout

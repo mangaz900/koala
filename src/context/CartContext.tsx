@@ -82,6 +82,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           currency: 'SEK'
         })
       }).catch(err => console.error('TikTok CAPI error:', err));
+
+      // 3. Meta Conversions API (Server-Side)
+      fetch('/api/meta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'AddToCart',
+          eventId: eventId,
+          pageUrl: window.location.href,
+          contents: [{
+            id: String(newItem.id),
+            quantity: newItem.quantity,
+            item_price: newItem.price
+          }],
+          value: newItem.price * newItem.quantity,
+          currency: 'SEK'
+        })
+      }).catch(err => console.error('Meta CAPI error:', err));
     }
 
     setCartItems(prev => {
