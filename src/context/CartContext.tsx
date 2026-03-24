@@ -63,6 +63,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }, { event_id: eventId });
     }
 
+    // 2. Meta (Facebook) Client-Side Tracking
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'AddToCart', {
+        content_ids: [String(newItem.id)],
+        content_name: newItem.name,
+        value: newItem.price * newItem.quantity,
+        currency: 'SEK',
+        contents: [{ id: String(newItem.id), quantity: newItem.quantity }],
+        content_type: 'product'
+      }, { eventID: eventId });
+    }
+
     // 2. TikTok Server-Side Tracking
     if (typeof window !== 'undefined') {
       fetch('/api/tiktok', {
